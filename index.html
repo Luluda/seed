@@ -35,6 +35,17 @@
   .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
   .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--green));border-radius:99px;transition:width .3s}
 
+  /* 偏好面板 */
+  .profile{background:linear-gradient(135deg,#fff,var(--pink-soft));border:1px solid var(--pink);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .profile-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+  .profile-head h3{margin:0;font-size:14px;font-weight:600;color:var(--pink-deep);display:flex;align-items:center;gap:6px}
+  .profile-head .toggle{font-size:11px;color:var(--mute)}
+  .profile-body{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .profile.collapsed .profile-body{display:none}
+  .profile .frow .ftitle{color:var(--pink-deep);font-weight:500;min-width:62px}
+  .profile-sum{font-size:11px;color:var(--mute);padding-top:4px;border-top:1px dashed #f3c5c9;margin-top:4px}
+  .profile-sum b{color:var(--pink-deep)}
+
   /* 筛选 */
   .filters{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:var(--shadow)}
   .frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
@@ -63,6 +74,13 @@
   .sc .name{font-size:13px;font-weight:600}
   .sc .desc{font-size:11px;color:var(--mute);margin:4px 0 6px;height:30px;overflow:hidden}
   .sc .progress{font-size:11px;color:var(--mute);display:flex;justify-content:space-between;margin-top:6px}
+
+  /* 推荐高亮 */
+  .brand.rec{background:linear-gradient(90deg,#fff8e7,#fff);border:1.5px solid var(--amber);box-shadow:0 0 0 1px rgba(230,168,92,.18)}
+  .brand.rec .btier{background:var(--amber);color:#fff}
+  .brand .star{display:inline-block;font-size:10px;color:var(--amber);font-weight:700;margin-left:4px;letter-spacing:.5px}
+  .item.rec-mode .brand:not(.rec){opacity:.45;background:#faf6f3}
+  .item.rec-mode .brand:not(.rec) .bnote{display:none}
 
   /* item 列表 */
   .section{margin-bottom:18px}
@@ -155,14 +173,52 @@
       <div class="sub" id="mustSub">关键品类是否齐备</div>
     </div>
     <div class="stat">
-      <div class="label">预算估算（基础款）</div>
-      <div class="val" id="budgetBasic">¥ 0</div>
-      <div class="sub">未购+已购合计，含必备&推荐</div>
+      <div class="label">推荐合计 ⭐</div>
+      <div class="val" id="budgetRec">¥ 0</div>
+      <div class="sub" id="budgetRecSub">按当前偏好为你选定的款</div>
     </div>
     <div class="stat">
-      <div class="label">预算估算（进阶款）</div>
-      <div class="val" id="budgetPremium">¥ 0</div>
-      <div class="sub">有进阶可选时取进阶款上限</div>
+      <div class="label">还需支付（未购推荐项）</div>
+      <div class="val" id="budgetTodo">¥ 0</div>
+      <div class="sub" id="budgetTodoSub">扣掉已购 / 跳过</div>
+    </div>
+  </div>
+
+  <!-- 偏好面板 -->
+  <div class="profile" id="profilePanel">
+    <div class="profile-head" id="profileToggle">
+      <h3>⚙️ 我的偏好 <small style="color:var(--mute);font-weight:400;font-size:11px;margin-left:6px" id="profileTagline"></small></h3>
+      <span class="toggle" id="profileToggleText">收起 ▾</span>
+    </div>
+    <div class="profile-body">
+      <div class="frow">
+        <span class="ftitle">总预算</span>
+        <span class="chip" data-pkey="budget" data-pv="tight">≤ 2万 <small>精简</small></span>
+        <span class="chip" data-pkey="budget" data-pv="mid">2-3.5万 <small>性价比</small></span>
+        <span class="chip" data-pkey="budget" data-pv="high">3.5-5万 <small>品质</small></span>
+        <span class="chip" data-pkey="budget" data-pv="top">5万+ <small>不封顶</small></span>
+      </div>
+      <div class="frow">
+        <span class="ftitle">风格</span>
+        <span class="chip" data-pkey="style" data-pv="practical">实用派 <small>功能优先</small></span>
+        <span class="chip" data-pkey="style" data-pv="value">性价比 <small>均衡</small></span>
+        <span class="chip" data-pkey="style" data-pv="quality">品质派 <small>全面进阶</small></span>
+        <span class="chip" data-pkey="style" data-pv="key">关键高配 <small>看下方多选</small></span>
+      </div>
+      <div class="frow">
+        <span class="ftitle">产地</span>
+        <span class="chip" data-pkey="origin" data-pv="cn">国货优先</span>
+        <span class="chip" data-pkey="origin" data-pv="global">进口优先</span>
+        <span class="chip" data-pkey="origin" data-pv="either">均可看推荐</span>
+      </div>
+      <div class="frow">
+        <span class="ftitle">高配类</span>
+        <span class="chip" data-pkey="hc" data-pv="travel">🚗 出行（座椅/推车）</span>
+        <span class="chip" data-pkey="hc" data-pv="feed">🍼 喂养（吸奶器/奶瓶/消毒）</span>
+        <span class="chip" data-pkey="hc" data-pv="sleep">🛏️ 睡眠环境（床/加湿/净化）</span>
+        <span class="chip" data-pkey="hc" data-pv="monitor">📡 监护护肤</span>
+      </div>
+      <div class="profile-sum" id="profileSum"></div>
     </div>
   </div>
 
@@ -191,6 +247,7 @@
     <div class="frow">
       <span class="ftitle">病房</span>
       <span class="chip" data-filter="yth" data-v="1">一体化病房（隐藏院方提供项）</span>
+      <span class="chip amber" data-filter="recOnly" data-v="1">⭐ 只看推荐款</span>
     </div>
     <div class="frow">
       <span class="ftitle">关键词</span>
@@ -221,10 +278,13 @@
 const STATUS = { TODO:'todo', BOUGHT:'bought', SKIP:'skip' };
 const STORAGE_KEY = 'mb-checklist-v1';
 
+const PROFILE_KEY = 'mb-checklist-profile-v1';
+
 const state = {
   status: {},           // id -> 'todo' | 'bought' | 'skip'
-  filters: { prio:'all', status:'all', birth:'both', yth:'0', scene:'all' },
+  filters: { prio:'all', status:'all', birth:'both', yth:'0', recOnly:'0', scene:'all' },
   query: '',
+  profile: JSON.parse(JSON.stringify(PROFILE_DEFAULT)),  // deep clone
 };
 
 // --- 加载状态 ---
@@ -232,8 +292,13 @@ try {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) state.status = JSON.parse(saved);
 } catch(e){}
+try {
+  const p = localStorage.getItem(PROFILE_KEY);
+  if (p) Object.assign(state.profile, JSON.parse(p));
+} catch(e){}
 
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.status)); }
+function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(state.profile)); }
 function getStatus(id){ return state.status[id] || STATUS.TODO; }
 function setStatus(id, v){
   if(v === STATUS.TODO) delete state.status[id];
@@ -263,16 +328,49 @@ function parsePrice(s){
   const arr = nums.map(parseFloat);
   return [Math.min(...arr), Math.max(...arr)];
 }
-function estItemPrice(item, tier){
-  if(!item.brands || !item.brands.length) return 0;
-  const same = item.brands.filter(b => b.tier === tier);
-  const pool = same.length ? same : item.brands;
-  let max = 0;
-  pool.forEach(b => {
+function priceMid(s){
+  const [lo, hi] = parsePrice(s);
+  return lo === hi ? hi : (lo + hi) / 2;
+}
+
+// --- 推荐逻辑 ---
+function recommendBrand(item, profile){
+  const brands = item.brands || [];
+  if(!brands.length) return null;
+  const hc = HC_MAP[item.id];
+  const inHC = hc && profile.highConfig.includes(hc);
+
+  // 决定目标 tier
+  let target = 'basic';
+  if (profile.style === 'quality') target = 'premium';
+  else if (profile.style === 'practical') target = 'basic';
+  else if (profile.style === 'key') { target = inHC ? 'premium' : 'basic'; }
+  else { target = inHC ? 'premium' : 'basic'; }  // value default
+  // 预算 override
+  if (profile.budget === 'top') target = 'premium';
+  if (profile.budget === 'tight' && !inHC) target = 'basic';
+
+  let pool = brands.filter(b => (b.tier || 'basic') === target);
+  if(!pool.length) pool = brands.slice();
+
+  // 产地过滤
+  if (profile.origin === 'cn'){
+    const cn = pool.filter(b => brandOrigin(b.name) === 'cn');
+    if (cn.length) pool = cn;
+  } else if (profile.origin === 'global'){
+    const gl = pool.filter(b => brandOrigin(b.name) === 'global');
+    if (gl.length) pool = gl;
+  }
+  return pool[0];  // 数据里排前面的视为推荐
+}
+
+function recommendPrice(item, profile){
+  const b = recommendBrand(item, profile);
+  if (b && b.price) {
     const [, hi] = parsePrice(b.price);
-    if(hi > max) max = hi;
-  });
-  return max;
+    return hi;
+  }
+  return 0;
 }
 
 // --- 过滤 ---
@@ -291,6 +389,9 @@ function visibleItems(){
 
     // 一体化
     if (state.filters.yth === '1' && tag.includes('一体化')) return false;
+
+    // 只看推荐：仅显示有推荐品牌的（即有 brands 数据的）
+    if (state.filters.recOnly === '1' && !(it.brands && it.brands.length)) return false;
 
     if (q) {
       const hay = [
@@ -389,16 +490,21 @@ function renderItems(){
 function itemCard(it){
   const st = getStatus(it.id);
   const tags = (it.tag||[]).map(tagBadge).join('');
-  const brands = (it.brands||[]).map(b => `
-    <div class="brand ${b.tier === 'premium' ? 'premium':''}">
-      <span class="btier">${b.tier === 'premium' ? '进阶' : '基础'}</span>
-      <span>
-        <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}
-        ${b.note ? `<span class="bnote">${b.note}</span>` : ''}
-      </span>
-    </div>`).join('');
+  const rec = recommendBrand(it, state.profile);
+  const brands = (it.brands||[]).map(b => {
+    const isRec = rec && b === rec;
+    return `
+      <div class="brand ${b.tier === 'premium' ? 'premium':''} ${isRec ? 'rec' : ''}">
+        <span class="btier">${b.tier === 'premium' ? '进阶' : '基础'}</span>
+        <span>
+          <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}${isRec ? '<span class="star">★ 推荐</span>' : ''}
+          ${b.note ? `<span class="bnote">${b.note}</span>` : ''}
+        </span>
+      </div>`;
+  }).join('');
   const note = it.note ? `<div class="note"><span class="nt">💡</span> ${it.note}</div>` : '';
-  return `<div class="item ${st}">
+  const recMode = state.filters.recOnly === '1' ? ' rec-mode' : '';
+  return `<div class="item ${st}${recMode}">
     <div class="top">
       <div class="name">${it.name}</div>
       ${it.qty ? `<div class="qty">${it.qty}</div>` : ''}
@@ -418,7 +524,7 @@ function renderStats(){
   const all = ITEMS.length;
   let bought = 0, skip = 0, todo = 0;
   let mustTot = 0, mustDone = 0;
-  let basicSum = 0, premSum = 0;
+  let recSum = 0, recTodoSum = 0, recItemCount = 0;
   ITEMS.forEach(it => {
     const s = getStatus(it.id);
     if(s === STATUS.BOUGHT) bought++;
@@ -429,8 +535,10 @@ function renderStats(){
       if(s === STATUS.BOUGHT) mustDone++;
     }
     if(s !== STATUS.SKIP){
-      basicSum += estItemPrice(it, 'basic');
-      premSum += Math.max(estItemPrice(it, 'premium'), estItemPrice(it, 'basic'));
+      const p = recommendPrice(it, state.profile);
+      recSum += p;
+      if (p > 0) recItemCount++;
+      if (s !== STATUS.BOUGHT) recTodoSum += p;
     }
   });
   document.getElementById('totProg').textContent = `${bought} / ${all - skip}`;
@@ -438,19 +546,44 @@ function renderStats(){
   document.getElementById('totSub').textContent = `未购 ${todo} · 已购 ${bought} · 跳过 ${skip}`;
   document.getElementById('mustProg').textContent = `${mustDone} / ${mustTot}`;
   document.getElementById('mustBar').style.width = ((mustDone / Math.max(1, mustTot)) * 100) + '%';
-  document.getElementById('budgetBasic').textContent = '¥ ' + basicSum.toLocaleString();
-  document.getElementById('budgetPremium').textContent = '¥ ' + premSum.toLocaleString();
+  document.getElementById('budgetRec').textContent = '¥ ' + Math.round(recSum).toLocaleString();
+  document.getElementById('budgetRecSub').textContent = `已为 ${recItemCount} 项标 ★`;
+  document.getElementById('budgetTodo').textContent = '¥ ' + Math.round(recTodoSum).toLocaleString();
+  document.getElementById('budgetTodoSub').textContent = `已购 ¥${Math.round(recSum - recTodoSum).toLocaleString()}`;
 }
 
-function render(){ renderStats(); renderScenes(); renderItems(); }
+function renderProfile(){
+  document.querySelectorAll('.chip[data-pkey]').forEach(c => {
+    const k = c.dataset.pkey, v = c.dataset.pv;
+    let on = false;
+    if (k === 'hc') on = state.profile.highConfig.includes(v);
+    else on = state.profile[k] === v;
+    c.classList.toggle('on', on);
+  });
+  const lbl = {
+    budget: {tight:'≤2万', mid:'2-3.5万', high:'3.5-5万', top:'5万+'},
+    style:  {practical:'实用派', value:'性价比', quality:'品质派', key:'关键高配'},
+    origin: {cn:'国货', global:'进口', either:'均可'},
+  };
+  const hcLbl = {travel:'出行', feed:'喂养', sleep:'睡眠环境', monitor:'监护护肤'};
+  const hcs = state.profile.highConfig.map(h => hcLbl[h]).filter(Boolean);
+  document.getElementById('profileTagline').textContent =
+    `· ${lbl.budget[state.profile.budget]} · ${lbl.style[state.profile.style]} · ${lbl.origin[state.profile.origin]}` +
+    (hcs.length ? ` · 高配:${hcs.join('/')}` : '');
+  document.getElementById('profileSum').innerHTML =
+    `预算 <b>${lbl.budget[state.profile.budget]}</b> · 风格 <b>${lbl.style[state.profile.style]}</b> · 产地 <b>${lbl.origin[state.profile.origin]}</b>` +
+    (hcs.length ? ` · 高配 <b>${hcs.join(' / ')}</b>` : ' · 高配 <b>无</b>');
+}
+
+function render(){ renderProfile(); renderStats(); renderScenes(); renderItems(); }
 
 // --- 事件 ---
 document.querySelectorAll('.chip[data-filter]').forEach(c => {
   c.addEventListener('click', ()=>{
     const f = c.dataset.filter;
-    if (f === 'yth') {
-      const cur = state.filters.yth === '1' ? '0' : '1';
-      state.filters.yth = cur;
+    if (f === 'yth' || f === 'recOnly') {
+      const cur = state.filters[f] === '1' ? '0' : '1';
+      state.filters[f] = cur;
       c.classList.toggle('on', cur === '1');
     } else {
       state.filters[f] = c.dataset.v;
@@ -458,6 +591,27 @@ document.querySelectorAll('.chip[data-filter]').forEach(c => {
     }
     render();
   });
+});
+
+// 偏好面板事件
+document.querySelectorAll('.chip[data-pkey]').forEach(c => {
+  c.addEventListener('click', ()=>{
+    const k = c.dataset.pkey, v = c.dataset.pv;
+    if (k === 'hc') {
+      const arr = state.profile.highConfig;
+      const i = arr.indexOf(v);
+      if (i >= 0) arr.splice(i, 1); else arr.push(v);
+    } else {
+      state.profile[k] = v;
+    }
+    saveProfile();
+    render();
+  });
+});
+document.getElementById('profileToggle').addEventListener('click', ()=>{
+  const p = document.getElementById('profilePanel');
+  p.classList.toggle('collapsed');
+  document.getElementById('profileToggleText').textContent = p.classList.contains('collapsed') ? '展开 ▸' : '收起 ▾';
 });
 document.getElementById('q').addEventListener('input', e => {
   state.query = e.target.value;

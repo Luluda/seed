@@ -631,4 +631,57 @@ const ITEMS = [
     brands:[{name:'茶花拉链密封袋', tier:'basic', price:'¥28/3 盒'}] },
 ];
 
-if (typeof module !== 'undefined') module.exports = { META, SCENES, ITEMS };
+// 高配大类（标在大件 item 上 — 用户勾选某类后自动给这些 item 推荐进阶款）
+const HC_MAP = {
+  // 出行安全
+  'travel-seat':'travel', 'travel-stroller':'travel', 'travel-carrier':'travel', 'travel-rocker':'travel',
+  // 喂养工具
+  'feed-pump':'feed', 'feed-warmer':'feed', 'feed-sterilizer':'feed', 'feed-pillow':'feed',
+  'feed-tea':'feed', 'feed-bottle2':'feed', 'hb-bottle':'feed',
+  // 睡眠/环境
+  'sleep-crib':'sleep', 'sleep-sack':'sleep', 'sleep-swaddle':'sleep', 'sleep-net':'sleep',
+  'sleep-sheet':'sleep', 'sleep-mompillow':'sleep',
+  'env-humidifier':'sleep', 'env-purifier':'sleep',
+  // 监护/护肤
+  'env-monitor':'monitor', 'env-ear':'monitor',
+  'care-lotion':'monitor', 'care-mouthcream':'monitor',
+};
+
+// 品牌产地判定（按 name 子串匹配，先匹配 GLOBAL 后匹配 CN）
+const BRAND_ORIGIN_GLOBAL = ['美德乐','medela','贝瑞克','spectra','elvie','willow','momcozy','hegen','贝亲','pigeon',
+  '可么多么','comotomo','nuk','花王','大王','帮宝适','好奇','尤妮佳','露安适','兰思诺','mama&kids','mamakids',
+  '纽强','mustela','aveeno','evereden','维蕾德','lucas papaw','ddrops','拜耳','desitin','sudocrem',
+  'nestdesigns','aden','littletiny','hoppetta','milkbarn','petitbateau','jellycat','kaloo','费雪','fisher',
+  'cubo','nanit','owlet','戴森','dyson','blueair','iqair','欧姆龙','omron','博朗','braun','okbaby','sttoke',
+  '美皮护','dr kegel','3m','芭克','宜家','ikea','antilop','stokke','tripp','cybex','bugaboo','quinny','joie',
+  '巧儿宜','britax','宝得适','nuna','mamaroo','nuna leaf','beaba','b.box','thinkbaby','ezpz','mushie','moyuun',
+  'matchstick','火柴猴','bibs','ikv','soothie','面包超人','大宇','smartcare','太阳公公','moony','安兒樂',
+  '西门子','siemens','松下','panasonic','博世','bosch','lg','三星','samsung','宝弘','boiron','combi','tucks',
+  'dermoplast','earth mama','clevertree','baby k\'tan','quinney','litaf','spectra','goon','sebamed','施巴',
+  '雀巢','a2','皇家美素佳儿','德爱','启赋','aptamil','爱他美','holle','tippee','保宁','attitude','wickle',
+  '甘尼克','litaf','aqpa','papa','silvercross','avova','bebebus','plantatoy','aden+anais'];
+
+const BRAND_ORIGIN_CN = ['bbc','babycare','子初','十月结晶','护力安','嫚熙','爱孕','开丽','美的','海尔','小米',
+  '米家','小白熊','bololo','faroro','纳若思','格里尼','卡迪派','婧麒','evoceler','惠尔顿','savile','猫头鹰',
+  'pouch','可优比','豆巴米','海马爸比','舒乐氏','德力西','得力','舒适宝','可心柔','全棉时代','安慕斯','德佑',
+  '妈贝乐','中信出版社','jollybaby','小鸡球球','曼龙','蒂爱','贝莱康','可孚','保宁','宝优妮','cainz','小天鹅',
+  '卡萨帝','安儿乐','白贝壳','好孩子','goodbaby','valdera','瓦德拉','松达','星鲨','伊可新','红苹果','仙卡',
+  'cutelife','米乐鱼','良良','戴可思','启初','红色小象','洁宝','开丽','清漫','奥克斯','森田','bablov',
+  'bbc皇室','bbc狮子王国','bbc熊猫','bbc花苞','sannuo','三诺'];
+
+function brandOrigin(name){
+  const n = (name || '').toLowerCase();
+  for (const k of BRAND_ORIGIN_GLOBAL) if (n.includes(k)) return 'global';
+  for (const k of BRAND_ORIGIN_CN) if (n.includes(k)) return 'cn';
+  return 'unknown';
+}
+
+// 默认偏好
+const PROFILE_DEFAULT = {
+  budget: 'mid',       // tight | mid | high | top
+  style: 'value',      // practical | value | quality | key
+  origin: 'either',    // cn | global | either
+  highConfig: ['feed','sleep'],  // travel | feed | sleep | monitor
+};
+
+if (typeof module !== 'undefined') module.exports = { META, SCENES, ITEMS, HC_MAP, brandOrigin, PROFILE_DEFAULT };
