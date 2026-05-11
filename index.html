@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#e8b4b8" />
+<title>待产&母婴清单 · 省妇保 2026.7.2</title>
+<style>
+  :root{
+    --bg:#fbf7f4; --card:#ffffff; --ink:#3a2e2c; --mute:#8a7a76;
+    --pink:#e8b4b8; --pink-soft:#f5dcde; --pink-deep:#b87480;
+    --green:#7fb086; --green-soft:#e3f1e5;
+    --amber:#e6a85c; --amber-soft:#fbe8c8;
+    --gray:#cfc7c2; --line:#ece4df;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 2px 8px rgba(0,0,0,.04);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.55;}
+  a{color:var(--pink-deep)}
+  header.top{padding:18px 16px 12px;background:linear-gradient(180deg,#fff,#fbf7f4);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;backdrop-filter:saturate(180%) blur(8px)}
+  h1{margin:0;font-size:18px;font-weight:600;letter-spacing:.5px}
+  .meta{color:var(--mute);font-size:12px;margin-top:4px;display:flex;flex-wrap:wrap;gap:8px 14px}
+  .meta b{color:var(--pink-deep);font-weight:600}
+  .container{max-width:1200px;margin:0 auto;padding:14px 14px 80px}
+
+  /* 总览 */
+  .overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:14px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow)}
+  .stat .label{font-size:11px;color:var(--mute);margin-bottom:4px;letter-spacing:.5px}
+  .stat .val{font-size:20px;font-weight:600}
+  .stat .sub{font-size:11px;color:var(--mute);margin-top:2px}
+  .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--green));border-radius:99px;transition:width .3s}
+
+  /* 筛选 */
+  .filters{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .frow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+  .frow .ftitle{font-size:11px;color:var(--mute);min-width:54px}
+  .chip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:99px;border:1px solid var(--line);background:#fff;font-size:12px;cursor:pointer;user-select:none;transition:.15s}
+  .chip:hover{border-color:var(--pink)}
+  .chip.on{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep);font-weight:500}
+  .chip.green.on{background:var(--green-soft);border-color:var(--green);color:#3e6644}
+  .chip.amber.on{background:var(--amber-soft);border-color:var(--amber);color:#7c5a25}
+  .chip small{color:var(--mute);font-weight:400}
+  .chip.on small{color:inherit;opacity:.7}
+  .search{flex:1;min-width:140px;padding:6px 10px;border-radius:99px;border:1px solid var(--line);font-size:12px;outline:none;background:#fff}
+  .search:focus{border-color:var(--pink)}
+  .toolbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .btn{padding:5px 12px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:12px}
+  .btn:hover{border-color:var(--pink)}
+  .btn.danger:hover{border-color:#e57373;color:#c04040}
+
+  /* 场景概览 */
+  .scenes{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px}
+  .sc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+  .sc:hover{border-color:var(--pink);transform:translateY(-1px)}
+  .sc.active{border-color:var(--pink-deep);background:linear-gradient(180deg,#fff,var(--pink-soft))}
+  .sc .scn{display:flex;align-items:center;gap:8px}
+  .sc .icon{font-size:18px}
+  .sc .name{font-size:13px;font-weight:600}
+  .sc .desc{font-size:11px;color:var(--mute);margin:4px 0 6px;height:30px;overflow:hidden}
+  .sc .progress{font-size:11px;color:var(--mute);display:flex;justify-content:space-between;margin-top:6px}
+
+  /* item 列表 */
+  .section{margin-bottom:18px}
+  .section h2{font-size:15px;margin:14px 6px 8px;display:flex;align-items:center;gap:8px}
+  .section h2 .icon{font-size:18px}
+  .section h2 small{color:var(--mute);font-weight:400;font-size:11px;margin-left:6px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);position:relative;transition:.2s}
+  .item.bought{background:var(--green-soft);border-color:var(--green)}
+  .item.bought .name{color:#3e6644}
+  .item.skip{background:#f4f1ee;border-color:var(--gray);opacity:.7}
+  .item.skip .name{text-decoration:line-through;color:var(--mute)}
+  .item .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .item .name{font-size:14px;font-weight:600;flex:1}
+  .item .qty{font-size:11px;color:var(--mute);background:#f6f1ee;padding:2px 6px;border-radius:6px;white-space:nowrap}
+  .badges{display:flex;flex-wrap:wrap;gap:4px}
+  .bg{font-size:10px;padding:2px 6px;border-radius:4px;background:#f6f1ee;color:var(--mute)}
+  .bg.must{background:#fde7ea;color:#b04356}
+  .bg.rec{background:#fbe8c8;color:#7c5a25}
+  .bg.opt{background:#e9e5e2;color:#666}
+  .bg.summer{background:#ffe9c4;color:#a86f1a}
+  .bg.shun{background:#e0eef7;color:#2a6a99}
+  .bg.pou{background:#ead4f3;color:#704a8a}
+  .bg.yth{background:#dcf0e0;color:#3e6644}
+  .bg.hos{background:#e8e4f5;color:#5b51a8}
+  .brands{font-size:12px;display:flex;flex-direction:column;gap:4px}
+  .brand{display:flex;align-items:flex-start;gap:6px;padding:5px 8px;border-radius:8px;background:#faf6f3;border:1px dashed #ecdfd9}
+  .brand.premium{background:#f5eef5;border-color:#dccddc}
+  .brand .btier{font-size:9px;font-weight:600;color:var(--mute);background:#fff;border-radius:4px;padding:1px 4px;margin-top:2px;flex-shrink:0;letter-spacing:.5px}
+  .brand.premium .btier{color:#704a8a;background:#fff}
+  .brand .bn{font-weight:500}
+  .brand .bp{color:var(--pink-deep);margin-left:4px;font-size:11px}
+  .brand .bnote{display:block;color:var(--mute);font-size:11px;line-height:1.4;margin-top:2px}
+  .note{font-size:11.5px;color:var(--mute);line-height:1.5;padding:4px 0;border-top:1px dashed var(--line)}
+  .note .nt{color:var(--pink-deep);font-weight:500}
+  .note .summer{color:#a86f1a}
+  .actions{display:flex;gap:4px;margin-top:auto}
+  .act{flex:1;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:11.5px;transition:.15s}
+  .act:hover{border-color:var(--pink)}
+  .act.on{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep);font-weight:500}
+  .act.on.green{background:var(--green-soft);border-color:var(--green);color:#3e6644}
+  .act.on.gray{background:#e9e5e2;border-color:var(--gray);color:#666}
+  .empty{text-align:center;color:var(--mute);padding:40px 20px;font-size:13px}
+
+  /* 打印 */
+  @media print{
+    header.top{position:static}
+    .toolbar,.filters,.scenes,.actions,#printToolbar{display:none !important}
+    .item{break-inside:avoid;page-break-inside:avoid}
+    body{background:#fff}
+    .item.skip{display:none}
+  }
+  @media (max-width:520px){
+    .meta{font-size:11px}
+    h1{font-size:16px}
+    .stat .val{font-size:17px}
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="container" style="padding-bottom:0">
+    <h1>🌸 待产 & 母婴用品清单</h1>
+    <div class="meta">
+      <span>预产期 <b id="dd">2026-07-02</b></span>
+      <span>距今 <b id="countdown">…</b></span>
+      <span>医院 <b id="hosp">浙江省妇保</b></span>
+      <span>城市 <b id="city">杭州 · 盛夏</b></span>
+      <span id="prefMeta"></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- 总览 -->
+  <div class="overview">
+    <div class="stat">
+      <div class="label">整体进度</div>
+      <div class="val" id="totProg">0 / 0</div>
+      <div class="bar"><i id="totBar" style="width:0%"></i></div>
+      <div class="sub" id="totSub">未购 0 · 已购 0 · 跳过 0</div>
+    </div>
+    <div class="stat">
+      <div class="label">必备进度 ⭐</div>
+      <div class="val" id="mustProg">0 / 0</div>
+      <div class="bar"><i id="mustBar" style="width:0%"></i></div>
+      <div class="sub" id="mustSub">关键品类是否齐备</div>
+    </div>
+    <div class="stat">
+      <div class="label">预算估算（基础款）</div>
+      <div class="val" id="budgetBasic">¥ 0</div>
+      <div class="sub">未购+已购合计，含必备&推荐</div>
+    </div>
+    <div class="stat">
+      <div class="label">预算估算（进阶款）</div>
+      <div class="val" id="budgetPremium">¥ 0</div>
+      <div class="sub">有进阶可选时取进阶款上限</div>
+    </div>
+  </div>
+
+  <!-- 筛选 -->
+  <div class="filters">
+    <div class="frow">
+      <span class="ftitle">优先级</span>
+      <span class="chip on" data-filter="prio" data-v="all">全部</span>
+      <span class="chip" data-filter="prio" data-v="must">必备 ⭐</span>
+      <span class="chip" data-filter="prio" data-v="rec">推荐</span>
+      <span class="chip" data-filter="prio" data-v="opt">可选</span>
+    </div>
+    <div class="frow">
+      <span class="ftitle">状态</span>
+      <span class="chip on" data-filter="status" data-v="all">全部</span>
+      <span class="chip" data-filter="status" data-v="todo">未购</span>
+      <span class="chip green" data-filter="status" data-v="bought">已购</span>
+      <span class="chip" data-filter="status" data-v="skip">跳过</span>
+    </div>
+    <div class="frow">
+      <span class="ftitle">生产</span>
+      <span class="chip on" data-filter="birth" data-v="both">顺剖通用</span>
+      <span class="chip" data-filter="birth" data-v="shun">侧重顺产</span>
+      <span class="chip" data-filter="birth" data-v="pou">侧重剖宫</span>
+    </div>
+    <div class="frow">
+      <span class="ftitle">病房</span>
+      <span class="chip" data-filter="yth" data-v="1">一体化病房（隐藏院方提供项）</span>
+    </div>
+    <div class="frow">
+      <span class="ftitle">关键词</span>
+      <input class="search" id="q" placeholder="搜物品名/品牌/备注…" />
+      <span style="flex:1"></span>
+      <div class="toolbar">
+        <button class="btn" id="exportBtn">导出 JSON</button>
+        <button class="btn" id="importBtn">导入</button>
+        <button class="btn" id="printBtn">打印</button>
+        <button class="btn danger" id="resetBtn">重置</button>
+      </div>
+    </div>
+    <input type="file" id="importFile" accept=".json" style="display:none" />
+  </div>
+
+  <!-- 场景卡片 -->
+  <div class="scenes" id="sceneCards"></div>
+
+  <!-- 物品列表 -->
+  <div id="list"></div>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+'use strict';
+
+const STATUS = { TODO:'todo', BOUGHT:'bought', SKIP:'skip' };
+const STORAGE_KEY = 'mb-checklist-v1';
+
+const state = {
+  status: {},           // id -> 'todo' | 'bought' | 'skip'
+  filters: { prio:'all', status:'all', birth:'both', yth:'0', scene:'all' },
+  query: '',
+};
+
+// --- 加载状态 ---
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) state.status = JSON.parse(saved);
+} catch(e){}
+
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.status)); }
+function getStatus(id){ return state.status[id] || STATUS.TODO; }
+function setStatus(id, v){
+  if(v === STATUS.TODO) delete state.status[id];
+  else state.status[id] = v;
+  save();
+  render();
+}
+
+// --- 元数据填充 ---
+document.getElementById('dd').textContent = META.dueDate;
+document.getElementById('hosp').textContent = META.hospital;
+document.getElementById('city').textContent = META.city + ' · ' + META.birthSeason;
+document.getElementById('prefMeta').textContent = '· ' + META.preference;
+(function countdown(){
+  const due = new Date(META.dueDate + 'T00:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const days = Math.round((due - today)/86400000);
+  document.getElementById('countdown').textContent =
+    days > 0 ? days + ' 天' : days === 0 ? '今天' : '产后 ' + Math.abs(days) + ' 天';
+})();
+
+// --- 价格解析 ---
+function parsePrice(s){
+  if(!s) return [0,0];
+  const nums = (s + '').match(/\d+\.?\d*/g);
+  if(!nums) return [0,0];
+  const arr = nums.map(parseFloat);
+  return [Math.min(...arr), Math.max(...arr)];
+}
+function estItemPrice(item, tier){
+  if(!item.brands || !item.brands.length) return 0;
+  const same = item.brands.filter(b => b.tier === tier);
+  const pool = same.length ? same : item.brands;
+  let max = 0;
+  pool.forEach(b => {
+    const [, hi] = parsePrice(b.price);
+    if(hi > max) max = hi;
+  });
+  return max;
+}
+
+// --- 过滤 ---
+function visibleItems(){
+  const q = state.query.trim().toLowerCase();
+  return ITEMS.filter(it => {
+    const tag = it.tag || [];
+    if (state.filters.prio !== 'all' && it.priority !== state.filters.prio) return false;
+    const st = getStatus(it.id);
+    if (state.filters.status !== 'all' && st !== state.filters.status) return false;
+    if (state.filters.scene !== 'all' && it.scene !== state.filters.scene) return false;
+
+    // 顺剖筛选
+    if (state.filters.birth === 'shun' && tag.includes('剖') && !tag.includes('顺')) return false;
+    if (state.filters.birth === 'pou' && tag.includes('顺') && !tag.includes('剖')) return false;
+
+    // 一体化
+    if (state.filters.yth === '1' && tag.includes('一体化')) return false;
+
+    if (q) {
+      const hay = [
+        it.name, it.note||'',
+        (it.brands||[]).map(b=>b.name+' '+(b.note||'')).join(' '),
+      ].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+// --- 渲染 ---
+function priorityBadge(p){
+  if(p === 'must') return '<span class="bg must">必备 ⭐</span>';
+  if(p === 'rec') return '<span class="bg rec">推荐</span>';
+  return '<span class="bg opt">可选</span>';
+}
+function tagBadge(t){
+  const map = {
+    '顺': ['shun','顺产'],
+    '剖': ['pou','剖产'],
+    '夏': ['summer','☀ 夏'],
+    '院内': ['hos','省妇保可买'],
+    '一体化': ['yth','一体化提供'],
+  };
+  const [cls, label] = map[t] || ['', t];
+  return `<span class="bg ${cls}">${label}</span>`;
+}
+
+function renderScenes(){
+  const wrap = document.getElementById('sceneCards');
+  const counts = {};
+  ITEMS.forEach(it => {
+    counts[it.scene] = counts[it.scene] || {total:0, bought:0, skip:0};
+    counts[it.scene].total++;
+    const s = getStatus(it.id);
+    if(s === STATUS.BOUGHT) counts[it.scene].bought++;
+    if(s === STATUS.SKIP) counts[it.scene].skip++;
+  });
+  const totC = ITEMS.length, totDone = Object.values(counts).reduce((a,c)=>a+c.bought,0);
+  const allCard = `<div class="sc ${state.filters.scene==='all'?'active':''}" data-scene="all">
+    <div class="scn"><span class="icon">📋</span><span class="name">全部分类</span></div>
+    <div class="desc">查看所有物品（${totC} 项）</div>
+    <div class="progress"><span>已购 ${totDone}</span><span>${Math.round(totDone/totC*100)}%</span></div>
+  </div>`;
+  const cards = SCENES.map(s => {
+    const c = counts[s.id] || {total:0, bought:0, skip:0};
+    const pct = c.total ? Math.round(c.bought/c.total*100) : 0;
+    return `<div class="sc ${state.filters.scene===s.id?'active':''}" data-scene="${s.id}">
+      <div class="scn"><span class="icon">${s.icon}</span><span class="name">${s.name}</span></div>
+      <div class="desc">${s.desc}</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="progress"><span>${c.bought}/${c.total}</span><span>${pct}%</span></div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = allCard + cards;
+  wrap.querySelectorAll('.sc').forEach(el => {
+    el.addEventListener('click', ()=>{
+      state.filters.scene = el.dataset.scene;
+      render();
+      document.getElementById('list').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+
+function renderItems(){
+  const items = visibleItems();
+  const listEl = document.getElementById('list');
+  if(!items.length){
+    listEl.innerHTML = '<div class="empty">没有符合条件的物品 — 试试调整筛选 🌷</div>';
+    return;
+  }
+  // 按场景分组
+  const groups = {};
+  items.forEach(it => { (groups[it.scene] = groups[it.scene] || []).push(it); });
+
+  listEl.innerHTML = SCENES.filter(s => groups[s.id]).map(s => {
+    const arr = groups[s.id];
+    return `<section class="section">
+      <h2><span class="icon">${s.icon}</span>${s.name}<small>${s.desc} · ${arr.length} 项</small></h2>
+      <div class="grid">
+        ${arr.map(itemCard).join('')}
+      </div>
+    </section>`;
+  }).join('');
+
+  listEl.querySelectorAll('.act').forEach(b => {
+    b.addEventListener('click', ()=>{
+      const id = b.dataset.id, v = b.dataset.v;
+      setStatus(id, v);
+    });
+  });
+}
+
+function itemCard(it){
+  const st = getStatus(it.id);
+  const tags = (it.tag||[]).map(tagBadge).join('');
+  const brands = (it.brands||[]).map(b => `
+    <div class="brand ${b.tier === 'premium' ? 'premium':''}">
+      <span class="btier">${b.tier === 'premium' ? '进阶' : '基础'}</span>
+      <span>
+        <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}
+        ${b.note ? `<span class="bnote">${b.note}</span>` : ''}
+      </span>
+    </div>`).join('');
+  const note = it.note ? `<div class="note"><span class="nt">💡</span> ${it.note}</div>` : '';
+  return `<div class="item ${st}">
+    <div class="top">
+      <div class="name">${it.name}</div>
+      ${it.qty ? `<div class="qty">${it.qty}</div>` : ''}
+    </div>
+    <div class="badges">${priorityBadge(it.priority)}${tags}</div>
+    ${brands ? `<div class="brands">${brands}</div>` : ''}
+    ${note}
+    <div class="actions">
+      <button class="act ${st==='todo'?'on':''}" data-id="${it.id}" data-v="todo">未购</button>
+      <button class="act green ${st==='bought'?'on green':''}" data-id="${it.id}" data-v="bought">已购</button>
+      <button class="act gray ${st==='skip'?'on gray':''}" data-id="${it.id}" data-v="skip">跳过</button>
+    </div>
+  </div>`;
+}
+
+function renderStats(){
+  const all = ITEMS.length;
+  let bought = 0, skip = 0, todo = 0;
+  let mustTot = 0, mustDone = 0;
+  let basicSum = 0, premSum = 0;
+  ITEMS.forEach(it => {
+    const s = getStatus(it.id);
+    if(s === STATUS.BOUGHT) bought++;
+    else if(s === STATUS.SKIP) skip++;
+    else todo++;
+    if(it.priority === 'must'){
+      mustTot++;
+      if(s === STATUS.BOUGHT) mustDone++;
+    }
+    if(s !== STATUS.SKIP){
+      basicSum += estItemPrice(it, 'basic');
+      premSum += Math.max(estItemPrice(it, 'premium'), estItemPrice(it, 'basic'));
+    }
+  });
+  document.getElementById('totProg').textContent = `${bought} / ${all - skip}`;
+  document.getElementById('totBar').style.width = ((bought / Math.max(1, all-skip)) * 100) + '%';
+  document.getElementById('totSub').textContent = `未购 ${todo} · 已购 ${bought} · 跳过 ${skip}`;
+  document.getElementById('mustProg').textContent = `${mustDone} / ${mustTot}`;
+  document.getElementById('mustBar').style.width = ((mustDone / Math.max(1, mustTot)) * 100) + '%';
+  document.getElementById('budgetBasic').textContent = '¥ ' + basicSum.toLocaleString();
+  document.getElementById('budgetPremium').textContent = '¥ ' + premSum.toLocaleString();
+}
+
+function render(){ renderStats(); renderScenes(); renderItems(); }
+
+// --- 事件 ---
+document.querySelectorAll('.chip[data-filter]').forEach(c => {
+  c.addEventListener('click', ()=>{
+    const f = c.dataset.filter;
+    if (f === 'yth') {
+      const cur = state.filters.yth === '1' ? '0' : '1';
+      state.filters.yth = cur;
+      c.classList.toggle('on', cur === '1');
+    } else {
+      state.filters[f] = c.dataset.v;
+      document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(cc => cc.classList.toggle('on', cc.dataset.v === c.dataset.v));
+    }
+    render();
+  });
+});
+document.getElementById('q').addEventListener('input', e => {
+  state.query = e.target.value;
+  render();
+});
+document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(confirm('清空所有已购/跳过状态？')) {
+    state.status = {}; save(); render();
+  }
+});
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const data = JSON.stringify({version:1, exportedAt: new Date().toISOString(), status: state.status}, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `checklist-${new Date().toISOString().slice(0,10)}.json`; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('importBtn').addEventListener('click', ()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', e => {
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try{
+      const d = JSON.parse(ev.target.result);
+      if (d.status && typeof d.status === 'object') {
+        state.status = d.status; save(); render();
+        alert('导入成功');
+      } else alert('文件格式不正确');
+    } catch (err) { alert('解析失败: ' + err.message); }
+  };
+  r.readAsText(f);
+});
+
+render();
+</script>
+</body>
+</html>
