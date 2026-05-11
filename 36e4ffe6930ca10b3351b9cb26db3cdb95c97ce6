@@ -1,0 +1,37 @@
+index.html
+  ccc1f4a8b40158f2 38-48,78-84,176-178,181-183,187-221,250,281-282,285,287,295-297,301,331-369,371-373,393-395,493-504,506-507,527,538-541,549-575,578,584-586,595-614
+data.js
+  ccc1f4a8b40158f2 634-687
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.7",
+  "base_commit_sha": "36e4ffe6930ca10b3351b9cb26db3cdb95c97ce6",
+  "prompts": {
+    "ccc1f4a8b40158f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0deb4bb5-bc23-4354-8d59-608464e1c2f0",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Luluda",
+      "messages": [],
+      "total_additions": 242,
+      "total_deletions": 35,
+      "accepted_lines": 242,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "index.html": {
+          "additions": 188,
+          "deletions": 34,
+          "accepted_lines": 188
+        },
+        "data.js": {
+          "additions": 54,
+          "deletions": 1,
+          "accepted_lines": 54
+        }
+      }
+    }
+  }
+}
