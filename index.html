@@ -364,10 +364,15 @@
     <input type="file" id="importFile" accept=".json" style="display:none" />
   </div>
 
-  <!-- 场景卡片（默认收起，紧凑 chip 始终可见） -->
+  <!-- 分组（按阶段 / 按场景），默认按阶段；展开/收起独立持久化 -->
   <div class="scenes-wrap" id="sceneWrap">
-    <div class="scenes-head" id="sceneToggle">
-      <h3>📊 分类进度 <small style="color:var(--mute);font-weight:400;font-size:11px;margin-left:6px" id="sceneSummary"></small></h3>
+    <div class="scenes-head">
+      <h3 id="sceneToggle" style="cursor:pointer;flex:1">
+        📊 <span id="sceneTitle">阶段进度</span>
+        <small style="color:var(--mute);font-weight:400;font-size:11px;margin-left:6px" id="sceneSummary"></small>
+      </h3>
+      <span class="chip" id="viewToggleStage" data-view="stage" style="font-size:11px">按阶段</span>
+      <span class="chip" id="viewToggleScene" data-view="scene" style="font-size:11px">按场景</span>
       <span class="toggle" id="sceneToggleText">展开详情 ▾</span>
     </div>
     <div class="scenes-compact" id="sceneChips"></div>
@@ -390,13 +395,19 @@ const STORAGE_KEY = 'mb-checklist-v1';
 const PROFILE_KEY = 'mb-checklist-profile-v1';
 const PICKS_KEY = 'mb-checklist-picks-v1';
 
+const VIEW_KEY = 'mb-view-mode';
 const state = {
   status: {},           // id -> 'todo' | 'bought' | 'skip'
   picks: {},            // itemId -> brand idx (用户手选，覆盖自动推荐)
   filters: { prio:'all', status:'all', birth:'both', yth:'0', recOnly:'0', scene:'all' },
   query: '',
   profile: JSON.parse(JSON.stringify(PROFILE_DEFAULT)),  // deep clone
+  view: localStorage.getItem(VIEW_KEY) || 'stage',  // 'stage' | 'scene'
 };
+
+// 当前视图的分组列表 + 取 item 所属组
+function currentGroups(){ return state.view === 'stage' ? STAGES : SCENES; }
+function itemGroupId(it){ return state.view === 'stage' ? getStage(it) : it.scene; }
 
 // --- 加载状态 ---
 try {
@@ -509,7 +520,7 @@ function visibleItems(){
     if (state.filters.prio !== 'all' && it.priority !== state.filters.prio) return false;
     const st = getStatus(it.id);
     if (state.filters.status !== 'all' && st !== state.filters.status) return false;
-    if (state.filters.scene !== 'all' && it.scene !== state.filters.scene) return false;
+    if (state.filters.scene !== 'all' && itemGroupId(it) !== state.filters.scene) return false;
 
     // 顺剖筛选
     if (state.filters.birth === 'shun' && tag.includes('剖') && !tag.includes('顺')) return false;
@@ -553,26 +564,34 @@ function tagBadge(t){
 function renderScenes(){
   const cardsEl = document.getElementById('sceneCards');
   const chipsEl = document.getElementById('sceneChips');
+  const groups = currentGroups();
   const counts = {};
   ITEMS.forEach(it => {
-    counts[it.scene] = counts[it.scene] || {total:0, bought:0, skip:0};
-    counts[it.scene].total++;
+    const g = itemGroupId(it);
+    counts[g] = counts[g] || {total:0, bought:0, skip:0};
+    counts[g].total++;
     const s = getStatus(it.id);
-    if(s === STATUS.BOUGHT) counts[it.scene].bought++;
-    if(s === STATUS.SKIP) counts[it.scene].skip++;
+    if(s === STATUS.BOUGHT) counts[g].bought++;
+    if(s === STATUS.SKIP) counts[g].skip++;
   });
   const totC = ITEMS.length, totDone = Object.values(counts).reduce((a,c)=>a+c.bought,0);
+
+  // 标题 + 视图切换 chip 状态
+  document.getElementById('sceneTitle').textContent = state.view === 'stage' ? '阶段进度' : '场景进度';
+  document.getElementById('viewToggleStage').classList.toggle('on', state.view === 'stage');
+  document.getElementById('viewToggleScene').classList.toggle('on', state.view === 'scene');
 
   // 紧凑 chip 行
   const allChip = `<span class="sc-chip ${state.filters.scene==='all'?'active':''}" data-scene="all">
     <span class="ci">📋</span><span class="cn">全部</span><span class="cp">${totDone}/${totC}</span>
     <i class="cbar" style="width:${Math.round(totDone/Math.max(1,totC)*100)}%"></i>
   </span>`;
-  const chips = SCENES.map(s => {
-    const c = counts[s.id] || {total:0, bought:0, skip:0};
+  const chips = groups.map(g => {
+    const c = counts[g.id] || {total:0, bought:0, skip:0};
     const pct = c.total ? Math.round(c.bought/c.total*100) : 0;
-    return `<span class="sc-chip ${state.filters.scene===s.id?'active':''}" data-scene="${s.id}" title="${s.desc}">
-      <span class="ci">${s.icon}</span><span class="cn">${s.name.replace('月子家用 · ','')}</span><span class="cp">${c.bought}/${c.total}</span>
+    const displayName = g.name.replace('月子家用 · ', '');
+    return `<span class="sc-chip ${state.filters.scene===g.id?'active':''}" data-scene="${g.id}" title="${g.timeline ? g.timeline + ' · ' : ''}${g.desc}">
+      <span class="ci">${g.icon}</span><span class="cn">${displayName}</span><span class="cp">${c.bought}/${c.total}</span>
       <i class="cbar" style="width:${pct}%"></i>
     </span>`;
   }).join('');
@@ -585,12 +604,13 @@ function renderScenes(){
     <div class="bar"><i style="width:${Math.round(totDone/Math.max(1,totC)*100)}%"></i></div>
     <div class="progress"><span>已购 ${totDone}</span><span>${Math.round(totDone/Math.max(1,totC)*100)}%</span></div>
   </div>`;
-  const cards = SCENES.map(s => {
-    const c = counts[s.id] || {total:0, bought:0, skip:0};
+  const cards = groups.map(g => {
+    const c = counts[g.id] || {total:0, bought:0, skip:0};
     const pct = c.total ? Math.round(c.bought/c.total*100) : 0;
-    return `<div class="sc ${state.filters.scene===s.id?'active':''}" data-scene="${s.id}">
-      <div class="scn"><span class="icon">${s.icon}</span><span class="name">${s.name}</span></div>
-      <div class="desc">${s.desc}</div>
+    const sub = g.timeline ? `<div class="desc" style="color:var(--pink-deep);font-size:10px;margin-bottom:2px">${g.timeline}</div>` : '';
+    return `<div class="sc ${state.filters.scene===g.id?'active':''}" data-scene="${g.id}">
+      <div class="scn"><span class="icon">${g.icon}</span><span class="name">${g.name}</span></div>
+      ${sub}<div class="desc">${g.desc}</div>
       <div class="bar"><i style="width:${pct}%"></i></div>
       <div class="progress"><span>${c.bought}/${c.total}</span><span>${pct}%</span></div>
     </div>`;
@@ -617,14 +637,19 @@ function renderItems(){
     listEl.innerHTML = '<div class="empty">没有符合条件的物品 — 试试调整筛选 🌷</div>';
     return;
   }
-  // 按场景分组
-  const groups = {};
-  items.forEach(it => { (groups[it.scene] = groups[it.scene] || []).push(it); });
+  // 按当前视图分组（阶段 or 场景）
+  const buckets = {};
+  items.forEach(it => {
+    const gid = itemGroupId(it);
+    (buckets[gid] = buckets[gid] || []).push(it);
+  });
+  const orderedGroups = currentGroups();
 
-  listEl.innerHTML = SCENES.filter(s => groups[s.id]).map(s => {
-    const arr = groups[s.id];
+  listEl.innerHTML = orderedGroups.filter(g => buckets[g.id]).map(g => {
+    const arr = buckets[g.id];
+    const tl = g.timeline ? `<small style="color:var(--pink-deep)">${g.timeline}</small> · ` : '';
     return `<section class="section">
-      <h2><span class="icon">${s.icon}</span>${s.name}<small>${s.desc} · ${arr.length} 项</small></h2>
+      <h2><span class="icon">${g.icon}</span>${g.name}<small>${tl}${g.desc} · ${arr.length} 项</small></h2>
       <div class="grid">
         ${arr.map(itemCard).join('')}
       </div>
@@ -798,6 +823,19 @@ document.getElementById('profileToggle').addEventListener('click', ()=>{
     localStorage.setItem('mb-scene-expanded', now ? '1' : '0');
   });
 })();
+
+// 视图切换：按阶段 / 按场景
+['viewToggleStage', 'viewToggleScene'].forEach(id => {
+  document.getElementById(id).addEventListener('click', (e)=>{
+    e.stopPropagation();
+    const v = document.getElementById(id).dataset.view;
+    if (state.view === v) return;
+    state.view = v;
+    state.filters.scene = 'all';  // 切视图时清空分组过滤，避免 id 不匹配
+    localStorage.setItem(VIEW_KEY, v);
+    render();
+  });
+});
 document.getElementById('q').addEventListener('input', e => {
   state.query = e.target.value;
   render();

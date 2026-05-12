@@ -12,6 +12,43 @@ const META = {
   preference: '顺产倾向 / 一体化病房(待定) / 月嫂+家人 / 母乳尝试+混合',
 };
 
+// 按"什么阶段会用到"分组（按时间线）— 默认视图
+const STAGES = [
+  { id: 's_prep',     name: '产前准备',      icon: '🌷', timeline: '5-6 月（预产期前 1-2 月）',
+    desc: '大件家具家电 + 出生即用品 + 待产包打包' },
+  { id: 's_labor',    name: '入院分娩',      icon: '🏥', timeline: '7 月初 · 入院当天',
+    desc: '随身证件 + 产房包，拎进产房用' },
+  { id: 's_hospital', name: '住院 3-5 天',   icon: '🛏️', timeline: '7 月初 · 住院期',
+    desc: '病房用：住院妈妈 + 宝宝 + 陪护' },
+  { id: 's_confine',  name: '月子 42 天',    icon: '👶', timeline: '7-8 月 · 出院~42 天',
+    desc: '月嫂在家：吸奶 / 洗护 / 换药 / D3' },
+  { id: 's_newborn',  name: '0-3 月日常',    icon: '🍼', timeline: '8-10 月 · 出月子后',
+    desc: '玩具早教、睡袋换码、外出装备' },
+  { id: 's_later',    name: '4 月+ 后续',    icon: '📅', timeline: '11 月+',
+    desc: '辅食、爬行、安全防护' },
+];
+
+// 场景 → 默认阶段映射（item 上有 stage 字段则以 item 为准）
+const SCENE_STAGE = {
+  doc:            's_labor',
+  delivery:       's_labor',
+  companion:      's_hospital',
+  hospital_mom:   's_hospital',
+  hospital_baby:  's_hospital',
+  home_feed:      's_confine',    // 喂养：默认月子，部分大件 item 单独覆盖到 s_prep
+  home_care:      's_confine',
+  home_sleep:     's_prep',       // 床/床品/睡袋要提前散味
+  home_travel:    's_prep',       // 出院当天就要用
+  home_env:       's_prep',       // 监护/温湿计/加湿/尿布台 都要提前
+  home_med:       's_confine',
+  home_toy:       's_newborn',
+  later:          's_later',
+};
+
+function getStage(item){
+  return item.stage || SCENE_STAGE[item.scene] || 's_later';
+}
+
 const SCENES = [
   { id: 'doc',           name: '证件包',          icon: '📄', urgency: 'S1', desc: '随身小包，临产前备好' },
   { id: 'delivery',      name: '产房包',          icon: '🏥', urgency: 'S1', desc: '独立手提袋，待产/分娩直接拎进产房' },
@@ -314,7 +351,7 @@ const ITEMS = [
     note:'住院基本用不上，出院备一些' },
 
   // ========== 月子家用 · 喂养 ==========
-  { id:'feed-pump', scene:'home_feed', name:'电动双边吸奶器', qty:'1', priority:'must',
+  { id:'feed-pump', scene:'home_feed', stage:'s_prep', name:'电动双边吸奶器', qty:'1', priority:'must',
     brands:[
       {name:'美德乐丝韵翼智能版', tier:'basic', price:'¥1300-1700', note:'★ 经典轻便，含护罩+乳垫+羊脂膏赠品'},
       {name:'贝瑞克大贝贝 Spectra', tier:'premium', price:'¥1500-2000', note:'★ 吸力强能吸后奶，吸得更干净'},
@@ -327,15 +364,15 @@ const ITEMS = [
       {name:'嫚熙', tier:'basic', price:'¥0.5/片'},
       {name:'BBC', tier:'basic', price:'¥0.4/片', note:'稍薄'},
     ] },
-  { id:'feed-bottle2', scene:'home_feed', name:'奶瓶 240ml（追加）', qty:'1-2', priority:'rec',
+  { id:'feed-bottle2', scene:'home_feed', stage:'s_prep', name:'奶瓶 240ml（追加）', qty:'1-2', priority:'rec',
     note:'与住院包 150ml 配套；hegen 套装已含' },
-  { id:'feed-warmer', scene:'home_feed', name:'温奶器（带消毒）', qty:'1', priority:'must',
+  { id:'feed-warmer', scene:'home_feed', stage:'s_prep', name:'温奶器（带消毒）', qty:'1', priority:'must',
     brands:[
       {name:'小白熊', tier:'basic', price:'¥150'},
       {name:'Bololo', tier:'premium', price:'¥300+'},
     ],
     note:'必备，热奶常用' },
-  { id:'feed-sterilizer', scene:'home_feed', name:'紫外线消毒烘干柜（大容量）', qty:'1', priority:'must',
+  { id:'feed-sterilizer', scene:'home_feed', stage:'s_prep', name:'紫外线消毒烘干柜（大容量）', qty:'1', priority:'must',
     brands:[
       {name:'太阳公公', tier:'basic', price:'¥300'},
       {name:'大宇', tier:'basic', price:'¥400'},
@@ -349,7 +386,7 @@ const ITEMS = [
       {name:'甘尼克宝贝', tier:'premium', price:'¥80'},
     ],
     note:'💡 部分妈妈担心残留，用热水+消毒替代也可' },
-  { id:'feed-pillow', scene:'home_feed', name:'哺乳枕', qty:'1', priority:'rec',
+  { id:'feed-pillow', scene:'home_feed', stage:'s_prep', name:'哺乳枕', qty:'1', priority:'rec',
     brands:[
       {name:'良良', tier:'basic', price:'¥100'},
       {name:'美德乐', tier:'premium', price:'¥200+'},
@@ -396,16 +433,16 @@ const ITEMS = [
       {name:'attitude 3 倍浓缩', tier:'premium', price:'¥130/1L'},
       {name:'保宁洗衣皂', tier:'basic', price:'¥68/6 块', note:'手洗用'},
     ] },
-  { id:'care-washer', scene:'home_care', name:'婴儿洗衣机（带高温煮洗）', qty:'1', priority:'must',
+  { id:'care-washer', scene:'home_care', stage:'s_prep', name:'婴儿洗衣机（带高温煮洗）', qty:'1', priority:'must',
     brands:[
       {name:'美的 mini 3kg 95°', tier:'basic', price:'¥850', note:'★ 高温煮洗除菌'},
       {name:'海尔/小米', tier:'basic', price:'¥800-1000'},
       {name:'大宇带烘干', tier:'premium', price:'¥1500+'},
     ],
     note:'☀ 杭州梅雨衣服难干，强烈推荐带烘干款' },
-  { id:'care-hanger-b', scene:'home_care', name:'宝宝小衣架', qty:'20 个', priority:'rec',
+  { id:'care-hanger-b', scene:'home_care', stage:'s_prep', name:'宝宝小衣架', qty:'20 个', priority:'rec',
     brands:[{name:'婴儿防滑伸缩衣架', tier:'basic', price:'¥26/20 个'}] },
-  { id:'care-rack', scene:'home_care', name:'婴儿专用晾衣架', qty:'1', priority:'rec',
+  { id:'care-rack', scene:'home_care', stage:'s_prep', name:'婴儿专用晾衣架', qty:'1', priority:'rec',
     note:'每天要晾的多，单独一个更方便' },
   { id:'care-zinc', scene:'home_care', name:'氧化锌软膏', qty:'1 盒', priority:'must',
     brands:[{name:'药店通用 15% 20g', tier:'basic', price:'¥7'}],
@@ -449,7 +486,7 @@ const ITEMS = [
       {name:'爱孕月亮安抚枕', tier:'premium', price:'¥60'},
     ],
     note:'小月龄两边夹一下有安全感' },
-  { id:'sleep-mompillow', scene:'home_sleep', name:'孕妇枕 / 哺乳枕', qty:'1', priority:'rec',
+  { id:'sleep-mompillow', scene:'home_sleep', stage:'s_prep', name:'孕妇枕 / 哺乳枕', qty:'1', priority:'rec',
     brands:[{name:'爱孕 U 型 CoolMax', tier:'premium', price:'¥479', note:'排湿速干'}],
     note:'孕晚期到产后哺乳都用得到，长条枕后续给宝宝爬爬' },
 
@@ -684,4 +721,4 @@ const PROFILE_DEFAULT = {
   highConfig: ['feed','sleep'],  // travel | feed | sleep | monitor
 };
 
-if (typeof module !== 'undefined') module.exports = { META, SCENES, ITEMS, HC_MAP, brandOrigin, PROFILE_DEFAULT };
+if (typeof module !== 'undefined') module.exports = { META, SCENES, STAGES, SCENE_STAGE, getStage, ITEMS, HC_MAP, brandOrigin, PROFILE_DEFAULT };
