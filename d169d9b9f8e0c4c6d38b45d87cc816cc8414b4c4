@@ -1,0 +1,29 @@
+sync.js
+  ccc1f4a8b40158f2 5-7,231-232
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.7",
+  "base_commit_sha": "d169d9b9f8e0c4c6d38b45d87cc816cc8414b4c4",
+  "prompts": {
+    "ccc1f4a8b40158f2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0deb4bb5-bc23-4354-8d59-608464e1c2f0",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Luluda",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "sync.js": {
+          "additions": 5,
+          "accepted_lines": 5
+        }
+      }
+    }
+  }
+}
