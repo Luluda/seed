@@ -150,6 +150,35 @@
   .act.on.gray{background:#e9e5e2;border-color:var(--gray);color:#666}
   .empty{text-align:center;color:var(--mute);padding:40px 20px;font-size:13px}
 
+  /* 同步徽章 */
+  .sync-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;font-size:11px;cursor:pointer;border:1px solid var(--line);background:#fff;user-select:none}
+  .sync-badge:hover{border-color:var(--pink)}
+  .sync-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--gray)}
+  .sync-badge.synced .dot{background:var(--green);box-shadow:0 0 0 3px rgba(127,176,134,.18)}
+  .sync-badge.syncing .dot{background:var(--amber);animation:pulse 1s infinite}
+  .sync-badge.error .dot{background:#e57373}
+  .sync-badge.disabled .dot{background:var(--gray)}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:100;padding:14px}
+  .modal.open{display:flex}
+  .modal-card{background:#fff;border-radius:var(--radius);padding:18px 20px;max-width:480px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+  .modal-card h3{margin:0 0 8px;font-size:16px}
+  .modal-card .modal-desc{font-size:12px;color:var(--mute);margin-bottom:12px;line-height:1.6}
+  .modal-card label{display:block;margin:10px 0;font-size:12px}
+  .modal-card label span.l{display:block;color:var(--mute);margin-bottom:3px;font-size:11px}
+  .modal-card input[type=text],.modal-card input[type=password]{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit;outline:none}
+  .modal-card input:focus{border-color:var(--pink)}
+  .modal-card .modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .modal-card .modal-actions .btn{flex:0 0 auto}
+  .modal-card .btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+  .modal-card .btn.primary:hover{background:var(--pink-deep);border-color:var(--pink-deep)}
+  .modal-card #syncMsg{margin-top:10px;padding:8px 10px;border-radius:8px;font-size:12px;line-height:1.5;display:none;background:#faf6f3;border:1px dashed var(--line)}
+  .modal-card #syncMsg.ok{background:var(--green-soft);border-color:var(--green);color:#3e6644;display:block}
+  .modal-card #syncMsg.err{background:#fde7ea;border-color:#e57373;color:#c04040;display:block;font-family:ui-monospace,Menlo,monospace}
+  .modal-card #syncMsg.info{display:block}
+
   /* 打印 */
   @media print{
     header.top{position:static}
@@ -170,7 +199,12 @@
 
 <header class="top">
   <div class="container" style="padding-bottom:0">
-    <h1>🌸 待产 & 母婴用品清单</h1>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <h1>🌸 待产 & 母婴用品清单</h1>
+      <span class="sync-badge disabled" id="syncBadge" title="点击配置 GitHub 同步">
+        <span class="dot"></span><span id="syncBadgeText">未启用</span>
+      </span>
+    </div>
     <div class="meta">
       <span>预产期 <b id="dd">2026-07-02</b></span>
       <span>距今 <b id="countdown">…</b></span>
@@ -180,6 +214,48 @@
     </div>
   </div>
 </header>
+
+<!-- 同步配置 Modal -->
+<div class="modal" id="syncModal">
+  <div class="modal-card">
+    <h3>⚙️ GitHub 同步设置</h3>
+    <div class="modal-desc">
+      状态会以单文件 <code>state.json</code> 提交到 seed 仓库的 <code>state</code> 分支。
+      不同设备/浏览器之间可同步。<b>Token 只存本地浏览器，不会出现在仓库里。</b>
+    </div>
+    <label>
+      <span class="l">仓库 (owner/repo)</span>
+      <input type="text" id="syncOwnerRepo" placeholder="Luluda/seed" />
+    </label>
+    <label>
+      <span class="l">分支</span>
+      <input type="text" id="syncBranchInput" placeholder="state" />
+    </label>
+    <label>
+      <span class="l">文件路径</span>
+      <input type="text" id="syncPathInput" placeholder="state.json" />
+    </label>
+    <label>
+      <span class="l">Personal Access Token
+        <a href="https://github.com/settings/personal-access-tokens/new?target_name=Luluda&description=mb-checklist-sync" target="_blank" style="margin-left:6px;font-size:11px">→ 立即生成 fine-grained token</a>
+      </span>
+      <input type="password" id="syncTokenInput" placeholder="github_pat_..." />
+      <span class="l" style="margin-top:4px;color:var(--mute)">
+        权限：Contents <b>Read &amp; Write</b>，Metadata <b>Read</b>。仓库访问选 <b>Only select repositories → Luluda/seed</b>
+      </span>
+    </label>
+    <div class="modal-actions">
+      <button class="btn" id="syncTestBtn">测试连接</button>
+      <button class="btn primary" id="syncEnableBtn">启用同步</button>
+      <button class="btn" id="syncPullBtn">↓ 强制下载</button>
+      <button class="btn" id="syncPushBtn">↑ 强制上传</button>
+      <button class="btn danger" id="syncDisableBtn">禁用并清 token</button>
+      <span style="flex:1"></span>
+      <button class="btn" id="syncCloseBtn">关闭</button>
+    </div>
+    <div id="syncMsg"></div>
+  </div>
+</div>
 
 <div class="container">
 
@@ -304,6 +380,7 @@
 </div>
 
 <script src="data.js"></script>
+<script src="sync.js"></script>
 <script>
 'use strict';
 
@@ -764,6 +841,141 @@ document.getElementById('importFile').addEventListener('change', e => {
   };
   r.readAsText(f);
 });
+
+// ============ 同步：接入 MBSync ============
+function syncSnapshot(){
+  return MBSync.makeSnapshot({
+    status: state.status,
+    picks: state.picks,
+    profile: state.profile,
+  });
+}
+// 先抓住原始的 save 函数，再覆盖为带 sync 的包装
+const _save = save, _savePicks = savePicks, _saveProfile = saveProfile;
+save = function(){ _save(); MBSync.schedulePush(syncSnapshot); };
+savePicks = function(){ _savePicks(); MBSync.schedulePush(syncSnapshot); };
+saveProfile = function(){ _saveProfile(); MBSync.schedulePush(syncSnapshot); };
+
+function applyRemoteSnapshot(remote){
+  if (remote.status) state.status = remote.status;
+  if (remote.picks) state.picks = remote.picks;
+  if (remote.profile) Object.assign(state.profile, remote.profile);
+  // 用原始 save，不触发再次 push（避免循环）
+  _save(); _savePicks(); _saveProfile();
+  render();
+}
+
+// 更新顶部徽章
+const STATUS_LABEL = {
+  idle:'未启用', disabled:'未启用', syncing:'同步中',
+  synced:'已同步', error:'同步失败', offline:'离线',
+};
+function renderSyncBadge(){
+  const b = document.getElementById('syncBadge');
+  const t = document.getElementById('syncBadgeText');
+  const s = MBSync.sync.status;
+  b.className = 'sync-badge ' + s;
+  let label = STATUS_LABEL[s] || s;
+  if (MBSync.sync.message) label += ' · ' + MBSync.sync.message;
+  t.textContent = label;
+  b.title = MBSync.sync.cfg.enabled
+    ? `${MBSync.sync.cfg.owner}/${MBSync.sync.cfg.repo} @ ${MBSync.sync.cfg.branch}/${MBSync.sync.cfg.path}\n点击查看/修改配置`
+    : '点击配置 GitHub 同步';
+}
+MBSync.onStatusChange(renderSyncBadge);
+renderSyncBadge();
+
+// Modal
+const modal = document.getElementById('syncModal');
+function openSyncModal(){
+  modal.classList.add('open');
+  document.getElementById('syncOwnerRepo').value = MBSync.sync.cfg.owner + '/' + MBSync.sync.cfg.repo;
+  document.getElementById('syncBranchInput').value = MBSync.sync.cfg.branch;
+  document.getElementById('syncPathInput').value = MBSync.sync.cfg.path;
+  document.getElementById('syncTokenInput').value = MBSync.sync.cfg.token ? '••••••••••••' : '';
+  setSyncMsg('');
+}
+function closeSyncModal(){ modal.classList.remove('open'); }
+function setSyncMsg(text, kind){
+  const el = document.getElementById('syncMsg');
+  el.className = kind || '';
+  el.textContent = text || '';
+}
+function readForm(){
+  const ownerRepo = document.getElementById('syncOwnerRepo').value.trim();
+  const [owner, repo] = ownerRepo.split('/');
+  const branch = document.getElementById('syncBranchInput').value.trim() || 'state';
+  const path = document.getElementById('syncPathInput').value.trim() || 'state.json';
+  const tokenInput = document.getElementById('syncTokenInput').value;
+  const token = tokenInput === '••••••••••••' ? MBSync.sync.cfg.token : tokenInput;
+  return { owner, repo, branch, path, token };
+}
+
+document.getElementById('syncBadge').addEventListener('click', openSyncModal);
+document.getElementById('syncCloseBtn').addEventListener('click', closeSyncModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeSyncModal(); });
+
+document.getElementById('syncTestBtn').addEventListener('click', async ()=>{
+  const f = readForm();
+  if (!f.owner || !f.repo || !f.token) { setSyncMsg('请填写仓库和 token', 'err'); return; }
+  Object.assign(MBSync.sync.cfg, f);
+  setSyncMsg('测试中…', 'info');
+  try {
+    const r = await MBSync.testConnection();
+    setSyncMsg(`✓ 连接成功: ${r.fullName}${r.private ? ' (私有)' : ' (公开)'}`, 'ok');
+  } catch (e) {
+    setSyncMsg('✗ ' + e.message, 'err');
+  }
+});
+
+document.getElementById('syncEnableBtn').addEventListener('click', async ()=>{
+  const f = readForm();
+  if (!f.owner || !f.repo || !f.token) { setSyncMsg('请填写仓库和 token', 'err'); return; }
+  Object.assign(MBSync.sync.cfg, f, { enabled: true });
+  MBSync.saveSyncConfig();
+  setSyncMsg('已启用，正在首次同步…', 'info');
+  try {
+    const r = await MBSync.pull(applyRemoteSnapshot);
+    if (r === 'empty') await MBSync.push(syncSnapshot);
+    setSyncMsg('✓ 已启用并完成首次同步', 'ok');
+    setTimeout(closeSyncModal, 800);
+  } catch (e) {
+    setSyncMsg('✗ ' + e.message, 'err');
+  }
+});
+
+document.getElementById('syncPullBtn').addEventListener('click', async ()=>{
+  if (!MBSync.sync.cfg.token) { setSyncMsg('需要先填 token', 'err'); return; }
+  if (!confirm('从远端覆盖本地所有状态/手选/偏好？')) return;
+  MBSync.sync.lastSyncAt = null;  // 强制 apply
+  try {
+    await MBSync.pull(applyRemoteSnapshot);
+    setSyncMsg('✓ 已从远端拉取最新', 'ok');
+  } catch (e) { setSyncMsg('✗ ' + e.message, 'err'); }
+});
+
+document.getElementById('syncPushBtn').addEventListener('click', async ()=>{
+  if (!MBSync.sync.cfg.token) { setSyncMsg('需要先填 token', 'err'); return; }
+  try {
+    await MBSync.push(syncSnapshot);
+    setSyncMsg('✓ 已上传本地状态到远端', 'ok');
+  } catch (e) { setSyncMsg('✗ ' + e.message, 'err'); }
+});
+
+document.getElementById('syncDisableBtn').addEventListener('click', ()=>{
+  if (!confirm('禁用同步并清除本地 token？（本地状态保留）')) return;
+  Object.assign(MBSync.sync.cfg, { enabled: false, token: '' });
+  MBSync.sync.sha = null;
+  MBSync.sync.lastSyncAt = null;
+  MBSync.saveSyncConfig();
+  MBSync.setStatus('disabled', '已禁用');
+  setSyncMsg('已禁用并清空 token', 'ok');
+});
+
+// 启动时若已启用，自动拉一次
+if (MBSync.sync.cfg.enabled && MBSync.sync.cfg.token) {
+  MBSync.pull(applyRemoteSnapshot).catch(()=>{});
+}
 
 render();
 </script>
