@@ -91,12 +91,17 @@
   .sc .desc{font-size:11px;color:var(--mute);margin:4px 0 6px;height:30px;overflow:hidden}
   .sc .progress{font-size:11px;color:var(--mute);display:flex;justify-content:space-between;margin-top:6px}
 
-  /* 推荐高亮 */
+  /* 品牌交互：自动推荐 ★ vs 用户手选 ✓ */
+  .brand{cursor:pointer;transition:.15s}
+  .brand:hover{border-style:solid;border-color:var(--pink)}
   .brand.rec{background:linear-gradient(90deg,#fff8e7,#fff);border:1.5px solid var(--amber);box-shadow:0 0 0 1px rgba(230,168,92,.18)}
   .brand.rec .btier{background:var(--amber);color:#fff}
+  .brand.picked{background:linear-gradient(90deg,#e8f4eb,#fff) !important;border:1.5px solid var(--green) !important;box-shadow:0 0 0 1px rgba(127,176,134,.18) !important}
+  .brand.picked .btier{background:var(--green);color:#fff}
   .brand .star{display:inline-block;font-size:10px;color:var(--amber);font-weight:700;margin-left:4px;letter-spacing:.5px}
-  .item.rec-mode .brand:not(.rec){opacity:.45;background:#faf6f3}
-  .item.rec-mode .brand:not(.rec) .bnote{display:none}
+  .brand .check{display:inline-block;font-size:10px;color:var(--green);font-weight:700;margin-left:4px;letter-spacing:.5px}
+  .item.rec-mode .brand:not(.rec):not(.picked){opacity:.45;background:#faf6f3}
+  .item.rec-mode .brand:not(.rec):not(.picked) .bnote{display:none}
 
   /* item 列表 */
   .section{margin-bottom:18px}
@@ -189,9 +194,9 @@
       <div class="sub" id="mustSub">关键品类是否齐备</div>
     </div>
     <div class="stat">
-      <div class="label">推荐合计 ⭐</div>
+      <div class="label">合计 (手选 ✓ + 自动推荐 ★)</div>
       <div class="val" id="budgetRec">¥ 0</div>
-      <div class="sub" id="budgetRecSub">按当前偏好为你选定的款</div>
+      <div class="sub" id="budgetRecSub">按当前偏好/手选为你算的</div>
     </div>
     <div class="stat">
       <div class="label">还需支付（未购推荐项）</div>
@@ -302,9 +307,11 @@ const STATUS = { TODO:'todo', BOUGHT:'bought', SKIP:'skip' };
 const STORAGE_KEY = 'mb-checklist-v1';
 
 const PROFILE_KEY = 'mb-checklist-profile-v1';
+const PICKS_KEY = 'mb-checklist-picks-v1';
 
 const state = {
   status: {},           // id -> 'todo' | 'bought' | 'skip'
+  picks: {},            // itemId -> brand idx (用户手选，覆盖自动推荐)
   filters: { prio:'all', status:'all', birth:'both', yth:'0', recOnly:'0', scene:'all' },
   query: '',
   profile: JSON.parse(JSON.stringify(PROFILE_DEFAULT)),  // deep clone
@@ -319,9 +326,26 @@ try {
   const p = localStorage.getItem(PROFILE_KEY);
   if (p) Object.assign(state.profile, JSON.parse(p));
 } catch(e){}
+try {
+  const pk = localStorage.getItem(PICKS_KEY);
+  if (pk) state.picks = JSON.parse(pk);
+} catch(e){}
 
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.status)); }
 function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(state.profile)); }
+function savePicks(){ localStorage.setItem(PICKS_KEY, JSON.stringify(state.picks)); }
+
+// 取实际生效品牌：用户手选 > 自动推荐
+function effectiveBrand(item, profile){
+  const idx = state.picks[item.id];
+  if (idx != null && item.brands && item.brands[idx]) return item.brands[idx];
+  return recommendBrand(item, profile);
+}
+function effectivePrice(item, profile){
+  const b = effectiveBrand(item, profile);
+  if (b && b.price) { const [,hi] = parsePrice(b.price); return hi; }
+  return 0;
+}
 function getStatus(id){ return state.status[id] || STATUS.TODO; }
 function setStatus(id, v){
   if(v === STATUS.TODO) delete state.status[id];
@@ -532,19 +556,31 @@ function renderItems(){
       setStatus(id, v);
     });
   });
+  listEl.querySelectorAll('.brand[data-item]').forEach(el => {
+    el.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const id = el.dataset.item, idx = parseInt(el.dataset.bidx, 10);
+      if (state.picks[id] === idx) delete state.picks[id];
+      else state.picks[id] = idx;
+      savePicks();
+      render();
+    });
+  });
 }
 
 function itemCard(it){
   const st = getStatus(it.id);
   const tags = (it.tag||[]).map(tagBadge).join('');
   const rec = recommendBrand(it, state.profile);
-  const brands = (it.brands||[]).map(b => {
+  const pickedIdx = state.picks[it.id];
+  const brands = (it.brands||[]).map((b, idx) => {
     const isRec = rec && b === rec;
+    const isPicked = pickedIdx === idx;
     return `
-      <div class="brand ${b.tier === 'premium' ? 'premium':''} ${isRec ? 'rec' : ''}">
+      <div class="brand ${b.tier === 'premium' ? 'premium':''} ${isRec ? 'rec' : ''} ${isPicked ? 'picked' : ''}" data-item="${it.id}" data-bidx="${idx}" title="${isPicked ? '点击取消选择' : '点击选这个'}">
         <span class="btier">${b.tier === 'premium' ? '进阶' : '基础'}</span>
         <span>
-          <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}${isRec ? '<span class="star">★ 推荐</span>' : ''}
+          <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}${isRec ? '<span class="star">★ 推荐</span>' : ''}${isPicked ? '<span class="check">✓ 已选</span>' : ''}
           ${b.note ? `<span class="bnote">${b.note}</span>` : ''}
         </span>
       </div>`;
@@ -571,7 +607,7 @@ function renderStats(){
   const all = ITEMS.length;
   let bought = 0, skip = 0, todo = 0;
   let mustTot = 0, mustDone = 0;
-  let recSum = 0, recTodoSum = 0, recItemCount = 0;
+  let sumAll = 0, sumTodo = 0, pickedCount = 0, autoCount = 0;
   ITEMS.forEach(it => {
     const s = getStatus(it.id);
     if(s === STATUS.BOUGHT) bought++;
@@ -582,10 +618,13 @@ function renderStats(){
       if(s === STATUS.BOUGHT) mustDone++;
     }
     if(s !== STATUS.SKIP){
-      const p = recommendPrice(it, state.profile);
-      recSum += p;
-      if (p > 0) recItemCount++;
-      if (s !== STATUS.BOUGHT) recTodoSum += p;
+      const p = effectivePrice(it, state.profile);
+      sumAll += p;
+      if (p > 0) {
+        if (state.picks[it.id] != null) pickedCount++;
+        else autoCount++;
+      }
+      if (s !== STATUS.BOUGHT) sumTodo += p;
     }
   });
   document.getElementById('totProg').textContent = `${bought} / ${all - skip}`;
@@ -593,10 +632,10 @@ function renderStats(){
   document.getElementById('totSub').textContent = `未购 ${todo} · 已购 ${bought} · 跳过 ${skip}`;
   document.getElementById('mustProg').textContent = `${mustDone} / ${mustTot}`;
   document.getElementById('mustBar').style.width = ((mustDone / Math.max(1, mustTot)) * 100) + '%';
-  document.getElementById('budgetRec').textContent = '¥ ' + Math.round(recSum).toLocaleString();
-  document.getElementById('budgetRecSub').textContent = `已为 ${recItemCount} 项标 ★`;
-  document.getElementById('budgetTodo').textContent = '¥ ' + Math.round(recTodoSum).toLocaleString();
-  document.getElementById('budgetTodoSub').textContent = `已购 ¥${Math.round(recSum - recTodoSum).toLocaleString()}`;
+  document.getElementById('budgetRec').textContent = '¥ ' + Math.round(sumAll).toLocaleString();
+  document.getElementById('budgetRecSub').textContent = `手选 ${pickedCount} 项 ✓ · 自动 ${autoCount} 项 ★`;
+  document.getElementById('budgetTodo').textContent = '¥ ' + Math.round(sumTodo).toLocaleString();
+  document.getElementById('budgetTodoSub').textContent = `已购 ¥${Math.round(sumAll - sumTodo).toLocaleString()}`;
 }
 
 function renderProfile(){
@@ -680,12 +719,19 @@ document.getElementById('q').addEventListener('input', e => {
 });
 document.getElementById('printBtn').addEventListener('click', ()=>window.print());
 document.getElementById('resetBtn').addEventListener('click', ()=>{
-  if(confirm('清空所有已购/跳过状态？')) {
-    state.status = {}; save(); render();
+  if(confirm('清空所有已购/跳过状态和手选品牌？（偏好保留）')) {
+    state.status = {}; state.picks = {};
+    save(); savePicks(); render();
   }
 });
 document.getElementById('exportBtn').addEventListener('click', ()=>{
-  const data = JSON.stringify({version:1, exportedAt: new Date().toISOString(), status: state.status}, null, 2);
+  const data = JSON.stringify({
+    version: 2,
+    exportedAt: new Date().toISOString(),
+    status: state.status,
+    picks: state.picks,
+    profile: state.profile,
+  }, null, 2);
   const blob = new Blob([data], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -700,7 +746,10 @@ document.getElementById('importFile').addEventListener('change', e => {
     try{
       const d = JSON.parse(ev.target.result);
       if (d.status && typeof d.status === 'object') {
-        state.status = d.status; save(); render();
+        state.status = d.status; save();
+        if (d.picks && typeof d.picks === 'object') { state.picks = d.picks; savePicks(); }
+        if (d.profile && typeof d.profile === 'object') { Object.assign(state.profile, d.profile); saveProfile(); }
+        render();
         alert('导入成功');
       } else alert('文件格式不正确');
     } catch (err) { alert('解析失败: ' + err.message); }
