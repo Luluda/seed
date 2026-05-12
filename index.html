@@ -96,6 +96,10 @@
   .brand:hover{border-style:solid;border-color:var(--pink)}
   .brand.rec{background:linear-gradient(90deg,#fff8e7,#fff);border:1.5px solid var(--amber);box-shadow:0 0 0 1px rgba(230,168,92,.18)}
   .brand.rec .btier{background:var(--amber);color:#fff}
+  /* 已手选其它项时，原 ★ 推荐淡化为灰色 hint */
+  .brand.rec.demoted{background:#faf6f3;border:1px dashed #d4cec9;box-shadow:none}
+  .brand.rec.demoted .btier{background:#fff;color:var(--mute)}
+  .brand.rec.demoted .star{color:var(--mute);font-weight:400}
   .brand.picked{background:linear-gradient(90deg,#e8f4eb,#fff) !important;border:1.5px solid var(--green) !important;box-shadow:0 0 0 1px rgba(127,176,134,.18) !important}
   .brand.picked .btier{background:var(--green);color:#fff}
   .brand .star{display:inline-block;font-size:10px;color:var(--amber);font-weight:700;margin-left:4px;letter-spacing:.5px}
@@ -573,14 +577,18 @@ function itemCard(it){
   const tags = (it.tag||[]).map(tagBadge).join('');
   const rec = recommendBrand(it, state.profile);
   const pickedIdx = state.picks[it.id];
+  const hasPick = pickedIdx != null;
   const brands = (it.brands||[]).map((b, idx) => {
     const isRec = rec && b === rec;
     const isPicked = pickedIdx === idx;
+    // 已手选另一项时，★ 推荐淡化（避免误以为两个都选了）
+    const demoted = isRec && hasPick && !isPicked;
+    const starText = demoted ? '原推荐' : '★ 推荐';
     return `
-      <div class="brand ${b.tier === 'premium' ? 'premium':''} ${isRec ? 'rec' : ''} ${isPicked ? 'picked' : ''}" data-item="${it.id}" data-bidx="${idx}" title="${isPicked ? '点击取消选择' : '点击选这个'}">
+      <div class="brand ${b.tier === 'premium' ? 'premium':''} ${isRec ? 'rec' : ''} ${demoted ? 'demoted' : ''} ${isPicked ? 'picked' : ''}" data-item="${it.id}" data-bidx="${idx}" title="${isPicked ? '点击取消选择' : '点击选这个'}">
         <span class="btier">${b.tier === 'premium' ? '进阶' : '基础'}</span>
         <span>
-          <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}${isRec ? '<span class="star">★ 推荐</span>' : ''}${isPicked ? '<span class="check">✓ 已选</span>' : ''}
+          <span class="bn">${b.name}</span>${b.price ? `<span class="bp">${b.price}</span>` : ''}${isRec ? `<span class="star">${starText}</span>` : ''}${isPicked ? '<span class="check">✓ 已选</span>' : ''}
           ${b.note ? `<span class="bnote">${b.note}</span>` : ''}
         </span>
       </div>`;
