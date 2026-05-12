@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-12T03:19:46.344Z",
+  "deviceId": "dev-83n7sw9c",
+  "status": {
+    "syncing": "2s 后同步…"
+  },
+  "picks": {
+    "del-tissue": 0
+  },
+  "profile": {
+    "budget": "high",
+    "style": "value",
+    "origin": "either",
+    "highConfig": [
+      "feed",
+      "sleep"
+    ]
+  }
+}
