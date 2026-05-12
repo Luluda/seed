@@ -2,6 +2,9 @@
 // 数据流：本地变更 → debounce 2s → PUT /repos/{owner}/{repo}/contents/state.json
 // 加载流：GET 远端 → 时间戳新于本地则替换本地 state
 // 安全：PAT 仅存 localStorage，never committed；建议用 fine-grained token 限定到 Luluda/seed
+//
+// 用 IIFE 包起来防止内部函数（如 setStatus）污染全局，并避免与 index.html 的同名函数冲突
+(function(){
 'use strict';
 
 const SYNC_KEY = 'mb-checklist-sync-v1';
@@ -225,3 +228,5 @@ window.MBSync = {
   makeSnapshot,
   deviceId,
 };
+
+})();
