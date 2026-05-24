@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T15:51:39.650Z",
-  "deviceId": "cli-import-jygfpf",
+  "updatedAt": "2026-05-24T16:09:56.223Z",
+  "deviceId": "cli-import-jz3xts",
   "status": {
     "feed-sterilizer": "ordered",
     "feed-station": "ordered",
@@ -22,7 +22,8 @@
     "hb-tissue": "ordered",
     "care-peach": "ordered",
     "care-wash": "ordered",
-    "hm-nipple": "ordered"
+    "hm-nipple": "ordered",
+    "del-diaper": "ordered"
   },
   "picks": {
     "feed-sterilizer": 4,
@@ -44,7 +45,8 @@
     "hb-tissue": 3,
     "care-peach": 0,
     "care-wash": 4,
-    "hm-nipple": 1
+    "hm-nipple": 1,
+    "del-diaper": 3
   },
   "prices": {
     "feed-sterilizer": 784.52,
@@ -66,7 +68,8 @@
     "hb-tissue": 89.9,
     "care-peach": 99.9,
     "care-wash": 129.9,
-    "hm-nipple": 199.9
+    "hm-nipple": 199.9,
+    "del-diaper": 0
   },
   "profile": {
     "budget": "high",
