@@ -1,12 +1,54 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-12T06:17:34.397Z",
-  "deviceId": "dev-83n7sw9c",
+  "updatedAt": "2026-05-24T15:45:30.753Z",
+  "deviceId": "cli-import-jy8j2a",
   "status": {
-    "syncing": "2s 后同步…"
+    "feed-sterilizer": "ordered",
+    "feed-station": "ordered",
+    "care-lotion": "ordered",
+    "env-table": "ordered",
+    "env-undermat2": "ordered",
+    "sleep-sheet": "ordered",
+    "sleep-net": "ordered",
+    "hm-cloth": "ordered",
+    "feed-tea": "ordered",
+    "sleep-crib": "ordered",
+    "feed-warmer": "ordered",
+    "care-oil": "ordered",
+    "hb-bottle": "ordered",
+    "feed-bottle2": "ordered"
   },
   "picks": {
-    "del-tissue": 0
+    "feed-sterilizer": 4,
+    "feed-station": 3,
+    "care-lotion": 5,
+    "env-table": 3,
+    "env-undermat2": 1,
+    "sleep-sheet": 4,
+    "sleep-net": 1,
+    "hm-cloth": 2,
+    "feed-tea": 3,
+    "sleep-crib": 8,
+    "feed-warmer": 3,
+    "care-oil": 3,
+    "hb-bottle": 3,
+    "feed-bottle2": 1
+  },
+  "prices": {
+    "feed-sterilizer": 784.52,
+    "feed-station": 871.78,
+    "care-lotion": 336.24,
+    "env-table": 905.81,
+    "env-undermat2": 61.36,
+    "sleep-sheet": 138.9,
+    "sleep-net": 404.29,
+    "hm-cloth": 198.67,
+    "feed-tea": 267.24,
+    "sleep-crib": 1730.03,
+    "feed-warmer": 293.59,
+    "care-oil": 132.74,
+    "hb-bottle": 228.83,
+    "feed-bottle2": 0
   },
   "profile": {
     "budget": "high",
