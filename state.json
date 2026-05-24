@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T16:11:52.479Z",
-  "deviceId": "cli-fix-jz6fj4",
+  "updatedAt": "2026-05-24T16:20:23.433Z",
+  "deviceId": "cli-merge-jzhdsa",
   "status": {
     "feed-sterilizer": "ordered",
     "feed-station": "ordered",
@@ -23,7 +23,9 @@
     "hb-tissue": "ordered",
     "care-peach": "ordered",
     "care-wash": "ordered",
-    "hm-nipple": "ordered"
+    "hm-nipple": "ordered",
+    "env-purifier": "skip",
+    "hb-discharge": "bought"
   },
   "picks": {
     "feed-sterilizer": 5,
