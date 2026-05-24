@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T15:45:30.753Z",
-  "deviceId": "cli-import-jy8j2a",
+  "updatedAt": "2026-05-24T15:49:24.761Z",
+  "deviceId": "cli-import-jydjmi",
   "status": {
     "feed-sterilizer": "ordered",
     "feed-station": "ordered",
@@ -16,7 +16,13 @@
     "feed-warmer": "ordered",
     "care-oil": "ordered",
     "hb-bottle": "ordered",
-    "feed-bottle2": "ordered"
+    "feed-bottle2": "ordered",
+    "hb-buttcream": "ordered",
+    "hb-diaper": "ordered",
+    "hb-tissue": "ordered",
+    "care-peach": "ordered",
+    "care-wash": "ordered",
+    "hm-nipple": "ordered"
   },
   "picks": {
     "feed-sterilizer": 4,
@@ -32,7 +38,13 @@
     "feed-warmer": 3,
     "care-oil": 3,
     "hb-bottle": 3,
-    "feed-bottle2": 1
+    "feed-bottle2": 1,
+    "hb-buttcream": 4,
+    "hb-diaper": 3,
+    "hb-tissue": 3,
+    "care-peach": 0,
+    "care-wash": 4,
+    "hm-nipple": 1
   },
   "prices": {
     "feed-sterilizer": 784.52,
@@ -48,7 +60,13 @@
     "feed-warmer": 293.59,
     "care-oil": 132.74,
     "hb-bottle": 228.83,
-    "feed-bottle2": 0
+    "feed-bottle2": 0,
+    "hb-buttcream": 134,
+    "hb-diaper": 179.9,
+    "hb-tissue": 89.9,
+    "care-peach": 99.9,
+    "care-wash": 129.9,
+    "hm-nipple": 199.9
   },
   "profile": {
     "budget": "high",
