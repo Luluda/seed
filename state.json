@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T15:49:24.761Z",
-  "deviceId": "cli-import-jydjmi",
+  "updatedAt": "2026-05-24T15:51:39.650Z",
+  "deviceId": "cli-import-jygfpf",
   "status": {
     "feed-sterilizer": "ordered",
     "feed-station": "ordered",
@@ -49,7 +49,7 @@
   "prices": {
     "feed-sterilizer": 784.52,
     "feed-station": 871.78,
-    "care-lotion": 336.24,
+    "care-lotion": 553.14,
     "env-table": 905.81,
     "env-undermat2": 61.36,
     "sleep-sheet": 138.9,
