@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T16:09:56.223Z",
-  "deviceId": "cli-import-jz3xts",
+  "updatedAt": "2026-05-24T16:11:52.479Z",
+  "deviceId": "cli-fix-jz6fj4",
   "status": {
     "feed-sterilizer": "ordered",
     "feed-station": "ordered",
@@ -19,34 +19,34 @@
     "feed-bottle2": "ordered",
     "hb-buttcream": "ordered",
     "hb-diaper": "ordered",
+    "del-diaper": "ordered",
     "hb-tissue": "ordered",
     "care-peach": "ordered",
     "care-wash": "ordered",
-    "hm-nipple": "ordered",
-    "del-diaper": "ordered"
+    "hm-nipple": "ordered"
   },
   "picks": {
-    "feed-sterilizer": 4,
+    "feed-sterilizer": 5,
     "feed-station": 3,
-    "care-lotion": 5,
-    "env-table": 3,
+    "care-lotion": 7,
+    "env-table": 2,
     "env-undermat2": 1,
-    "sleep-sheet": 4,
+    "sleep-sheet": 3,
     "sleep-net": 1,
     "hm-cloth": 2,
-    "feed-tea": 3,
-    "sleep-crib": 8,
-    "feed-warmer": 3,
-    "care-oil": 3,
-    "hb-bottle": 3,
-    "feed-bottle2": 1,
+    "feed-tea": 2,
+    "sleep-crib": 5,
+    "feed-warmer": 2,
+    "care-oil": 2,
+    "hb-bottle": 2,
+    "feed-bottle2": 0,
     "hb-buttcream": 4,
     "hb-diaper": 3,
-    "hb-tissue": 3,
+    "del-diaper": 3,
+    "hb-tissue": 4,
     "care-peach": 0,
     "care-wash": 4,
-    "hm-nipple": 1,
-    "del-diaper": 3
+    "hm-nipple": 1
   },
   "prices": {
     "feed-sterilizer": 784.52,
@@ -65,11 +65,11 @@
     "feed-bottle2": 0,
     "hb-buttcream": 134,
     "hb-diaper": 179.9,
+    "del-diaper": 0,
     "hb-tissue": 89.9,
     "care-peach": 99.9,
     "care-wash": 129.9,
-    "hm-nipple": 199.9,
-    "del-diaper": 0
+    "hm-nipple": 199.9
   },
   "profile": {
     "budget": "high",
