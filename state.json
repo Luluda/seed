@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T16:20:23.433Z",
-  "deviceId": "cli-merge-jzhdsa",
+  "updatedAt": "2026-05-25T02:33:56.894Z",
+  "deviceId": "cli-merge-klef8f",
   "status": {
     "feed-sterilizer": "ordered",
     "feed-station": "ordered",
@@ -25,7 +25,14 @@
     "care-wash": "ordered",
     "hm-nipple": "ordered",
     "env-purifier": "skip",
-    "hb-discharge": "bought"
+    "hb-discharge": "bought",
+    "env-light": "skip",
+    "env-undermat": "bought",
+    "del-hat": "bought",
+    "del-cup": "bought",
+    "del-monitor": "bought",
+    "hb-bmask": "skip",
+    "care-tub": "bought"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -48,7 +55,9 @@
     "hb-tissue": 4,
     "care-peach": 0,
     "care-wash": 4,
-    "hm-nipple": 1
+    "hm-nipple": 1,
+    "del-cup": 1,
+    "del-monitor": 0
   },
   "prices": {
     "feed-sterilizer": 784.52,
