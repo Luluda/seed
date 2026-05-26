@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-26T12:03:41.135Z",
+  "updatedAt": "2026-05-26T12:12:55.043Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -78,7 +78,14 @@
     "care-wash": 4,
     "hm-nipple": 1,
     "del-cup": 1,
-    "del-monitor": 0
+    "del-monitor": 0,
+    "care-liquid": 0,
+    "hm-wash": 0,
+    "del-pad": 1,
+    "hm-tooth": 0,
+    "hb-soft": 0,
+    "hm-mat1": 1,
+    "hm-panty": 0
   },
   "prices": {
     "feed-sterilizer": 784.52,
