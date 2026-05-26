@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-26T11:41:42.064Z",
+  "updatedAt": "2026-05-26T11:59:49.884Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -32,7 +32,27 @@
     "del-cup": "bought",
     "del-monitor": "bought",
     "hb-bmask": "skip",
-    "care-tub": "bought"
+    "care-tub": "bought",
+    "care-liquid": "ordered",
+    "care-hanger-b": "ordered",
+    "hm-wash": "ordered",
+    "del-pad": "ordered",
+    "hm-panty": "ordered",
+    "hm-mat1": "ordered",
+    "hm-mat2": "ordered",
+    "hb-soft": "ordered",
+    "hm-toilet": "ordered",
+    "hm-pad": "ordered",
+    "hm-hat": "ordered",
+    "hm-tooth": "ordered",
+    "del-belt": "ordered",
+    "feed-bag": "ordered",
+    "hb-undermat": "ordered",
+    "del-tissue": "ordered",
+    "hb-soap": "ordered",
+    "hb-burp": "ordered",
+    "hb-spoon": "ordered",
+    "comp-nail": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -80,7 +100,11 @@
     "hb-tissue": 89.9,
     "care-peach": 99.9,
     "care-wash": 129.9,
-    "hm-nipple": 199.9
+    "hm-nipple": 199.9,
+    "care-liquid": 30,
+    "care-hanger-b": 49.87,
+    "hm-wash": 36.88,
+    "hb-soft": 144.63
   },
   "profile": {
     "budget": "high",
