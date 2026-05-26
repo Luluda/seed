@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-26T11:59:49.884Z",
+  "updatedAt": "2026-05-26T12:03:41.135Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -52,7 +52,8 @@
     "hb-soap": "ordered",
     "hb-burp": "ordered",
     "hb-spoon": "ordered",
-    "comp-nail": "skip"
+    "comp-nail": "skip",
+    "hb-mosquito": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
