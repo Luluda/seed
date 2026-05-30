@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T12:52:30.711Z",
+  "updatedAt": "2026-05-30T13:39:27.405Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -129,6 +129,7 @@
     "hm-wash": 36.88,
     "hb-soft": 144.63
   },
+  "ready": {},
   "profile": {
     "budget": "high",
     "style": "quality",
