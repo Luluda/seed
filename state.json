@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T14:30:03.895Z",
+  "updatedAt": "2026-05-30T14:30:13.579Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -132,7 +132,8 @@
   "ready": {
     "doc-id": true,
     "doc-hukou": true,
-    "doc-marriage": true
+    "doc-marriage": true,
+    "doc-cash": true
   },
   "profile": {
     "budget": "high",
