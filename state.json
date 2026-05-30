@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:10:22.059Z",
+  "updatedAt": "2026-05-30T15:10:30.658Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -100,7 +100,8 @@
     "hb-soap": 0,
     "del-hat": 0,
     "hb-burp": 0,
-    "hb-spoon": 0
+    "hb-spoon": 0,
+    "hb-formula": 0
   },
   "prices": {
     "feed-sterilizer": 784.52,
