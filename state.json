@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T14:46:58.608Z",
+  "updatedAt": "2026-05-30T14:50:51.905Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -142,7 +142,8 @@
     "comp-towel": true,
     "comp-tissue": true,
     "comp-utensil": true,
-    "comp-mask": true
+    "comp-mask": true,
+    "comp-earplug": true
   },
   "profile": {
     "budget": "high",
