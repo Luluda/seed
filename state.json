@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:08:32.228Z",
+  "updatedAt": "2026-05-30T15:08:36.217Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -153,7 +153,8 @@
     "hm-mat2": true,
     "hm-pad60": true,
     "hm-tooth": true,
-    "hb-burp": true
+    "hb-burp": true,
+    "hb-tissue": true
   },
   "profile": {
     "budget": "high",
