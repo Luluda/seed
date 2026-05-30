@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-26T12:12:57.136Z",
+  "updatedAt": "2026-05-30T12:52:30.711Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -53,7 +53,9 @@
     "hb-burp": "ordered",
     "hb-spoon": "ordered",
     "comp-nail": "skip",
-    "hb-mosquito": "skip"
+    "hb-mosquito": "skip",
+    "hm-pad60": "ordered",
+    "hm-discharge": "bought"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -85,7 +87,20 @@
     "hm-tooth": 0,
     "hb-soft": 0,
     "hm-mat1": 1,
-    "hm-panty": 0
+    "hm-panty": 0,
+    "hm-pad60": 0,
+    "hm-mat2": 0,
+    "hm-toilet": 0,
+    "hm-pad": 0,
+    "hm-hat": 0,
+    "del-belt": 0,
+    "feed-bag": 0,
+    "hb-undermat": 0,
+    "del-tissue": 0,
+    "hb-soap": 0,
+    "del-hat": 0,
+    "hb-burp": 0,
+    "hb-spoon": 0
   },
   "prices": {
     "feed-sterilizer": 784.52,
