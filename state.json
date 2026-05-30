@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:32:33.772Z",
+  "updatedAt": "2026-05-30T15:35:15.795Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -132,7 +132,6 @@
   },
   "ready": {
     "doc-id": true,
-    "doc-hukou": true,
     "doc-marriage": true,
     "doc-cash": true,
     "del-pad": true,
@@ -161,7 +160,8 @@
     "hb-sock": true,
     "hb-bottle": true,
     "hb-buttcream": true,
-    "hb-discharge": true
+    "hb-discharge": true,
+    "doc-hukou": true
   },
   "profile": {
     "budget": "high",
