@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T14:38:51.892Z",
+  "updatedAt": "2026-05-30T14:39:47.670Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -137,7 +137,8 @@
     "del-pad": true,
     "del-diaper": true,
     "del-hat": true,
-    "del-tissue": true
+    "del-tissue": true,
+    "del-belt": true
   },
   "profile": {
     "budget": "high",
