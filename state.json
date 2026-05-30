@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:44:40.159Z",
+  "updatedAt": "2026-05-30T15:44:49.898Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -164,7 +164,8 @@
     "doc-hukou": true,
     "hm-cold": true,
     "hm-wash": true,
-    "hb-undermat": true
+    "hb-undermat": true,
+    "hb-soft": true
   },
   "profile": {
     "budget": "high",
