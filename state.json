@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:00:55.312Z",
+  "updatedAt": "2026-05-30T15:02:33.036Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -148,7 +148,8 @@
     "hm-cloth": true,
     "hm-pad": true,
     "hm-nipple": true,
-    "hm-panty": true
+    "hm-panty": true,
+    "hm-mat1": true
   },
   "profile": {
     "budget": "high",
