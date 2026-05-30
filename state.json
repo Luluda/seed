@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:08:53.847Z",
+  "updatedAt": "2026-05-30T15:09:53.140Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -156,7 +156,8 @@
     "hb-burp": true,
     "hb-tissue": true,
     "hb-diaper": true,
-    "hm-discharge": true
+    "hm-discharge": true,
+    "hb-sock": true
   },
   "profile": {
     "budget": "high",
