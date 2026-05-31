@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:48:12.607Z",
+  "updatedAt": "2026-05-31T03:48:28.384Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -58,7 +58,8 @@
     "hm-discharge": "ordered",
     "care-rack": "skip",
     "sleep-sack": "skip",
-    "sleep-comfort": "skip"
+    "sleep-comfort": "skip",
+    "sleep-pillow": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -182,8 +183,7 @@
     "sleep-crib": true,
     "sleep-sheet": true,
     "sleep-swaddle": true,
-    "sleep-net": true,
-    "sleep-pillow": true
+    "sleep-net": true
   },
   "profile": {
     "budget": "high",
