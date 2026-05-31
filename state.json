@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:45:01.309Z",
+  "updatedAt": "2026-05-31T03:45:18.664Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -55,7 +55,8 @@
     "comp-nail": "skip",
     "hb-mosquito": "skip",
     "hm-pad60": "ordered",
-    "hm-discharge": "ordered"
+    "hm-discharge": "ordered",
+    "care-rack": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
