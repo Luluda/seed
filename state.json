@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:48:02.896Z",
+  "updatedAt": "2026-05-31T03:48:10.153Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -57,7 +57,8 @@
     "hm-pad60": "ordered",
     "hm-discharge": "ordered",
     "care-rack": "skip",
-    "sleep-sack": "skip"
+    "sleep-sack": "skip",
+    "sleep-comfort": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -181,7 +182,8 @@
     "sleep-crib": true,
     "sleep-sheet": true,
     "sleep-swaddle": true,
-    "sleep-net": true
+    "sleep-net": true,
+    "sleep-pillow": true
   },
   "profile": {
     "budget": "high",
