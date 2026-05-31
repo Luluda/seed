@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:47:48.541Z",
+  "updatedAt": "2026-05-31T03:47:52.405Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -178,8 +178,7 @@
     "feed-station": true,
     "care-hanger-b": true,
     "sleep-crib": true,
-    "sleep-sheet": true,
-    "sleep-sack": true
+    "sleep-sheet": true
   },
   "profile": {
     "budget": "high",
