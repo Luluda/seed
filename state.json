@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T05:36:30.937Z",
+  "updatedAt": "2026-05-31T05:36:53.588Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -220,7 +220,8 @@
     "care-liquid": true,
     "later-chair": true,
     "comp-glove": true,
-    "comp-eye": true
+    "comp-eye": true,
+    "comp-wettissue": true
   },
   "profile": {
     "budget": "high",
