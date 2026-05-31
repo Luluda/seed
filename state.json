@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:49:50.540Z",
+  "updatedAt": "2026-05-31T03:50:06.325Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -187,7 +187,8 @@
     "sleep-mompillow": true,
     "travel-rocker": true,
     "env-table": true,
-    "env-undermat2": true
+    "env-undermat2": true,
+    "feed-tea": true
   },
   "profile": {
     "budget": "high",
