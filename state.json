@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:50:17.858Z",
+  "updatedAt": "2026-05-31T03:50:37.201Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -190,7 +190,9 @@
     "env-undermat2": true,
     "feed-tea": true,
     "care-wash": true,
-    "care-lotion": true
+    "care-lotion": true,
+    "care-oil": true,
+    "care-peach": true
   },
   "profile": {
     "budget": "high",
