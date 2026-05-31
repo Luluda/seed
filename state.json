@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:51:39.416Z",
+  "updatedAt": "2026-05-31T04:06:34.463Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -198,7 +198,7 @@
   },
   "profile": {
     "budget": "high",
-    "style": "value",
+    "style": "key",
     "origin": "either",
     "highConfig": [
       "feed",
