@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:48:53.752Z",
+  "updatedAt": "2026-05-31T03:49:05.733Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -183,7 +183,8 @@
     "sleep-sheet": true,
     "sleep-swaddle": true,
     "sleep-net": true,
-    "sleep-mompillow": true
+    "sleep-mompillow": true,
+    "travel-rocker": true
   },
   "profile": {
     "budget": "high",
