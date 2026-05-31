@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T04:06:42.112Z",
+  "updatedAt": "2026-05-31T04:15:52.397Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -59,7 +59,10 @@
     "care-rack": "skip",
     "sleep-sack": "skip",
     "sleep-pillow": "skip",
-    "feed-cleaner": "ordered"
+    "feed-cleaner": "ordered",
+    "hm-band": "ordered",
+    "hm-bra": "ordered",
+    "comp-hanger": "ordered"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -105,7 +108,8 @@
     "del-hat": 0,
     "hb-burp": 0,
     "hb-spoon": 0,
-    "hb-formula": 0
+    "hb-formula": 0,
+    "feed-cleaner": 0
   },
   "prices": {
     "feed-sterilizer": 784.52,
@@ -132,7 +136,12 @@
     "care-liquid": 30,
     "care-hanger-b": 49.87,
     "hm-wash": 36.88,
-    "hb-soft": 144.63
+    "hb-soft": 144.63,
+    "del-pad": 26.28,
+    "hm-band": 16.67,
+    "feed-cleaner": 77.6,
+    "hm-bra": 120.95,
+    "comp-hanger": 49.87
   },
   "ready": {
     "doc-id": true,
