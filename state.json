@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:44:48.596Z",
+  "updatedAt": "2026-05-31T03:44:54.202Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -172,7 +172,8 @@
     "del-monitor": true,
     "care-tub": true,
     "feed-bottle2": true,
-    "feed-warmer": true
+    "feed-warmer": true,
+    "feed-sterilizer": true
   },
   "profile": {
     "budget": "high",
