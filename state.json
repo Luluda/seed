@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T03:45:18.664Z",
+  "updatedAt": "2026-05-31T03:47:03.578Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -175,7 +175,8 @@
     "feed-bottle2": true,
     "feed-warmer": true,
     "feed-sterilizer": true,
-    "feed-station": true
+    "feed-station": true,
+    "care-hanger-b": true
   },
   "profile": {
     "budget": "high",
