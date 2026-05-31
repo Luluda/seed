@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T04:16:39.379Z",
+  "updatedAt": "2026-05-31T04:24:53.773Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -62,7 +62,12 @@
     "feed-cleaner": "ordered",
     "hm-band": "ordered",
     "hm-bra": "ordered",
-    "comp-hanger": "ordered"
+    "comp-hanger": "ordered",
+    "hm-sock": "ordered",
+    "hm-mouth": "ordered",
+    "hb-brush": "ordered",
+    "hm-swab": "ordered",
+    "hb-sock": "ordered"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -141,7 +146,17 @@
     "hm-band": 16.67,
     "feed-cleaner": 77.6,
     "hm-bra": 120.95,
-    "comp-hanger": 49.87
+    "comp-hanger": 49.87,
+    "comp-nail": 26.28,
+    "hm-sock": 28.52,
+    "feed-bag": 16.4,
+    "del-belt": 12.86,
+    "hm-panty": 28.52,
+    "hm-mouth": 123.54,
+    "hb-brush": 34.61,
+    "hm-swab": 19.22,
+    "care-rack": 49.87,
+    "hb-sock": 28.05
   },
   "ready": {
     "doc-id": true,
