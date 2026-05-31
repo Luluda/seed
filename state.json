@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-30T15:45:13.719Z",
+  "updatedAt": "2026-05-31T03:44:14.010Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -25,14 +25,14 @@
     "care-wash": "ordered",
     "hm-nipple": "ordered",
     "env-purifier": "skip",
-    "hb-discharge": "bought",
+    "hb-discharge": "ordered",
     "env-light": "skip",
-    "env-undermat": "bought",
-    "del-hat": "bought",
-    "del-cup": "bought",
-    "del-monitor": "bought",
+    "env-undermat": "ordered",
+    "del-hat": "ordered",
+    "del-cup": "ordered",
+    "del-monitor": "ordered",
     "hb-bmask": "skip",
-    "care-tub": "bought",
+    "care-tub": "ordered",
     "care-liquid": "ordered",
     "care-hanger-b": "ordered",
     "hm-wash": "ordered",
@@ -55,7 +55,7 @@
     "comp-nail": "skip",
     "hb-mosquito": "skip",
     "hm-pad60": "ordered",
-    "hm-discharge": "bought"
+    "hm-discharge": "ordered"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -166,7 +166,12 @@
     "hm-wash": true,
     "hb-undermat": true,
     "hb-soft": true,
-    "hb-soap": true
+    "hb-soap": true,
+    "env-undermat": true,
+    "del-cup": true,
+    "del-monitor": true,
+    "care-tub": true,
+    "feed-bottle2": true
   },
   "profile": {
     "budget": "high",
