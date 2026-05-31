@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T05:50:44.141Z",
+  "updatedAt": "2026-05-31T05:51:41.320Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -66,7 +66,8 @@
     "hm-sock": "ordered",
     "hm-mouth": "ordered",
     "hb-brush": "ordered",
-    "hb-sock": "ordered"
+    "hb-sock": "ordered",
+    "hb-grooming": "ordered"
   },
   "picks": {
     "feed-sterilizer": 5,
