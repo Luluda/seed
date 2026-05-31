@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T05:38:03.511Z",
+  "updatedAt": "2026-05-31T05:38:53.230Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -221,7 +221,8 @@
     "comp-glove": true,
     "comp-eye": true,
     "comp-wettissue": true,
-    "hm-toilet": true
+    "hm-toilet": true,
+    "comp-hanger": true
   },
   "profile": {
     "budget": "high",
