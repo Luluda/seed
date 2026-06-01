@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-31T05:51:41.320Z",
+  "updatedAt": "2026-06-01T02:39:04.529Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -67,7 +67,8 @@
     "hm-mouth": "ordered",
     "hb-brush": "ordered",
     "hb-sock": "ordered",
-    "hb-grooming": "ordered"
+    "hb-grooming": "ordered",
+    "hm-swab": "ordered"
   },
   "picks": {
     "feed-sterilizer": 5,
@@ -114,7 +115,8 @@
     "hb-burp": 0,
     "hb-spoon": 0,
     "hb-formula": 0,
-    "feed-cleaner": 0
+    "feed-cleaner": 0,
+    "care-hanger-b": 0
   },
   "prices": {
     "feed-sterilizer": 784.52,
