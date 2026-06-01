@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-01T02:53:27.789Z",
+  "updatedAt": "2026-06-01T02:54:02.052Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -231,7 +231,8 @@
     "comp-hanger": true,
     "hm-bowl": true,
     "hm-bodywash": true,
-    "hb-basin": true
+    "hb-basin": true,
+    "doc-meds": true
   },
   "profile": {
     "budget": "high",
