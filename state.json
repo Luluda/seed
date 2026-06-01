@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-01T02:53:20.259Z",
+  "updatedAt": "2026-06-01T02:53:27.789Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -70,7 +70,8 @@
     "hb-grooming": "ordered",
     "hm-swab": "ordered",
     "care-washer": "skip",
-    "feed-pillow": "skip"
+    "feed-pillow": "skip",
+    "sleep-comfort": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
