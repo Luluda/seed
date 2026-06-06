@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-06T10:32:37.417Z",
+  "updatedAt": "2026-06-06T10:32:40.728Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -60,7 +60,7 @@
     "sleep-sack": "skip",
     "sleep-pillow": "skip",
     "feed-cleaner": "ordered",
-    "hm-band": "ordered",
+    "hm-band": "skip",
     "hm-bra": "ordered",
     "comp-hanger": "ordered",
     "hm-sock": "ordered",
