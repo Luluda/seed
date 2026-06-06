@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-06T10:33:56.552Z",
+  "updatedAt": "2026-06-06T10:34:04.601Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -249,7 +249,8 @@
     "care-mouthcream": true,
     "hb-nailfile": true,
     "feed-cleaner": true,
-    "later-bowl": true
+    "later-bowl": true,
+    "later-bib": true
   },
   "profile": {
     "budget": "high",
