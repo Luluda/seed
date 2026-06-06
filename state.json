@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-06T10:29:53.930Z",
+  "updatedAt": "2026-06-06T10:30:24.511Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -74,7 +74,8 @@
     "sleep-comfort": "skip",
     "hm-shoe": "ordered",
     "env-thermo": "skip",
-    "env-humidifier": "skip"
+    "env-humidifier": "skip",
+    "care-zinc": "skip"
   },
   "picks": {
     "feed-sterilizer": 5,
