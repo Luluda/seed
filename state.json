@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-06T04:40:37.589Z",
+  "updatedAt": "2026-06-06T04:41:01.972Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -238,7 +238,8 @@
     "hm-swab": true,
     "hm-waterproof": true,
     "hb-cup": true,
-    "hb-spoon": true
+    "hb-spoon": true,
+    "hb-brush": true
   },
   "profile": {
     "budget": "high",
