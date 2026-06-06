@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-06T10:32:51.485Z",
+  "updatedAt": "2026-06-06T10:33:15.698Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -246,7 +246,8 @@
     "hb-grooming": true,
     "hb-formula": true,
     "feed-bag": true,
-    "care-mouthcream": true
+    "care-mouthcream": true,
+    "hb-nailfile": true
   },
   "profile": {
     "budget": "high",
