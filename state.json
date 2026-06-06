@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-06T04:43:14.494Z",
+  "updatedAt": "2026-06-06T04:43:31.786Z",
   "deviceId": "dev-gir2exa5",
   "status": {
     "feed-sterilizer": "ordered",
@@ -117,7 +117,6 @@
     "del-hat": 0,
     "hb-burp": 0,
     "hb-spoon": 0,
-    "hb-formula": 0,
     "feed-cleaner": 0,
     "care-hanger-b": 0
   },
